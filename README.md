@@ -1,5 +1,3 @@
-pip install optuna timm wandb
-
 # 深度学习训练与架构演示系统
 
 这是一个完整的深度学习基础知识实现和演示系统，涵盖从线性代数基础到LLM架构，以及Prompt Engineering与Few-shot技术的全套实现。
@@ -18,7 +16,7 @@ pip install optuna timm wandb
 - ✅ Few-shot 示例生成与管理
 - ✅ GPT 输出质量提升工具
 
-**� 工程级实现**
+**🏗️ 工程级实现**
 - ✅ **PyTorch模块化**：Kaggle级数据管线 + 模型架构优化
 - ✅ **模型调优策略**：CIFAR-10实战 + 完整监控系统
 - ✅ **模型压缩量化**：准确率保持 ±1% + 大小减少75%
@@ -73,7 +71,9 @@ ml_core/
 # 统一入口
 run_example.py                    # 集成所有功能的统一入口
                                  # 包含Prompt Engineering与Few-shot技术
-```## � 安装依赖
+```
+
+## 📦 安装依赖
 
 ### 基础依赖（必需）
 ```bash
@@ -87,7 +87,7 @@ pip install torch torchvision numpy pandas matplotlib plotly dash albumentations
 
 ### 可选依赖（性能优化）
 ```bash
-pip install numba lmdb
+pip install numba lmdb optuna timm wandb
 ```
 
 ## 🚀 快速开始
@@ -98,13 +98,7 @@ pip install numba lmdb
 python run_example.py fundamentals
 ```
 
-### 6. Prompt Engineering 与 Few-shot 技术演示
-```bash
-# Prompt Engineering与Few-shot技术
-python run_example.py prompt
-```
-
-### 7. 交互模式
+### 2. LLM架构演示
 ```bash
 # LLaMA架构原理和可视化
 python run_example.py llm
@@ -128,6 +122,12 @@ python run_example.py dashboard
 python run_example.py train
 ```
 
+### 6. Prompt Engineering 与 Few-shot 技术演示
+```bash
+# Prompt Engineering与Few-shot技术
+python run_example.py prompt
+```
+
 ### 7. 交互模式
 ```bash
 # 菜单选择模式
@@ -141,14 +141,6 @@ python run_example.py quick
 ```
 
 ## 💡 详细功能说明
-
-### 9. 🧠 Prompt Engineering 与 Few-shot 技术 (集成在run_example.py中)
-- ✅ 自动化 Prompt 调试与质量分析
-- ✅ Few-shot 示例生成与管理  
-- ✅ GPT 输出质量提升工具
-- ✅ 批量Prompt测试与输出收集
-- ✅ 自动化Prompt优化与输出评测
-- ✅ 模拟测试环境（无需实际API调用）
 
 ### 1. 🧮 线性代数与自动微分基础
 **文件：`linear_algebra.py`**
@@ -222,6 +214,15 @@ python run_example.py quick
 - ✅ 多进程数据加载
 - ✅ IO性能提升3-5倍
 
+### 8. 🧠 Prompt Engineering 与 Few-shot 技术
+**集成在 `run_example.py` 中**
+- ✅ 自动化 Prompt 调试与质量分析
+- ✅ Few-shot 示例生成与管理  
+- ✅ GPT 输出质量提升工具
+- ✅ 批量Prompt测试与输出收集
+- ✅ 自动化Prompt优化与输出评测
+- ✅ 模拟测试环境（无需实际API调用）
+
 ## 🔬 代码示例
 
 ### 统一入口使用
@@ -248,7 +249,9 @@ python run_example.py quick             # 快速全功能演示
 # 3. 批量Prompt测试  
 # 4. 自动优化Prompt
 # 5. 自动生成Few-shot示例
-```## � 性能指标
+```
+
+## 📊 性能指标
 
 | 功能模块 | 性能提升 | 验证指标 |
 |---------|---------|---------|
@@ -278,7 +281,7 @@ python run_example.py quick             # 快速全功能演示
 - ✅ **功能增强**：添加了命令行参数支持和交互菜单
 - ✅ **模拟环境**：Prompt Engineering提供模拟测试，无需实际API调用
 
-## 开发说明
+## 🛠️ 开发说明
 
 - 代码遵循 PEP 8 规范
 - 使用类型注解增强代码可读性
