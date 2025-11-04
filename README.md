@@ -1,40 +1,9 @@
-# 🎓 深度学习训练与架构演示系统 v2.0
+# 🎓 深度学习训练与架构演示系统 v2.1
 
 > 一个完整的深度学习基础知识实现和演示系统，从线性代数基础到LLM架构，以及Prompt Engineering技术的全套实现。
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0#### 6. 🎯 深度学习训练系统
-**文件：`training.py`, `models_torch.py`, `checkpointing.py`**
-- ✅ PyTorch模型模块化设计
-- ✅ Kaggle竞赛级模型训练
-- ✅ 分布式数据并行 (DDP)
-- ✅ 混合精度训练 (FP16)
-- ✅ 模型量化和压缩
-- ✅ 增强早停机制（EarlyStopping）
-- ✅ 智能检查点管理（CheckpointManager）
-- ## 📈 版本历史
-
-### v2.1 (2025-11-04)
-- ✅ **增强训练系统**：集成 `checkpointing.py` 功能
-- ✅ **智能早停**：EarlyStopping 类，防止过拟合
-- ✅ **检查点管理**：CheckpointManager 类，自动管理模型检查点
-- ✅ **依赖优化**：合并 requirements.txt，统一依赖管理
-- ✅ **文档更新**：完善 README，添加新功能说明
-
-### v2.0 (2025-11-04)
-- ✅ **代码整合**：统一入口，集成所有功能
-- ✅ **模块化依赖**：可选依赖管理，部分功能独立运行
-- ✅ **增强训练**：4种训练模式，灵活配置
-- ✅ **完善文档**：详细使用指南和API文档
-- ✅ **自动化测试**：完整的测试覆盖
-
-### v1.0 (2025-10)
-- ✅ 基础功能实现
-- ✅ LLM架构演示
-- ✅ 深度学习训练系统Norm、Dropout
-- ✅ 性能监控和对比
-- ✅ CIFAR-10实战（Top-1准确率 > 90%）
-- ✅ 自动保存最佳模型和训练状态vg)](https://pytorch.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ## ✨ 特色亮点
@@ -95,92 +64,53 @@
 ## 📁 项目结构
 
 ```
-ml_core/
-├── __init__.py                     # 模块初始化
-├── requirements.txt               # 依赖包列表
-├── 功能检查清单.py                 # 功能验证报告
+MyAIStudy/
+├── run_example.py              # 统一入口，所有功能的主程序
+├── test_run_example.py         # 自动化测试脚本
 │
-# 基础实现模块
-├── linear_algebra.py             # 线性代数与自动微分基础
-├── backpropagation.py            # 反向传播详细实现
-├── optimizer_comparison.py       # 优化算法对比
-├── cnn_transformer.py           # 卷积与Transformer基础
+├── ml_core/                    # 核心模块目录
+│   ├── __init__.py
+│   │
+│   # 基础实现
+│   ├── linear_algebra.py       # 线性代数与自动微分
+│   ├── backpropagation.py      # 反向传播详细实现
+│   ├── optimizer_comparison.py # 优化算法对比
+│   ├── cnn_transformer.py      # CNN与Transformer基础
+│   │
+│   # 神经网络组件
+│   ├── layers.py               # 神经网络层
+│   ├── models.py               # 简单网络模型
+│   ├── optimizers.py           # 优化器实现
+│   ├── performance.py          # 性能优化工具
+│   │
+│   # PyTorch训练系统
+│   ├── models_torch.py         # PyTorch模型
+│   ├── training.py             # 训练器和配置（含早停和检查点管理）
+│   ├── checkpointing.py        # 早停和检查点管理（已集成到training.py）
+│   ├── evaluation.py           # 模型评估
+│   ├── monitoring.py           # 性能监控
+│   ├── data.py                 # 数据加载器
+│   ├── kaggle_data.py          # Kaggle数据管线
+│   ├── kaggle_models.py        # 竞赛级模型
+│   │
+│   # LLM架构
+│   ├── llm_architecture.py     # LLaMA完整实现
+│   ├── llm_visualization.py    # LLM可视化
+│   │
+│   # 可视化与分析
+│   ├── visualization.py        # 数据仪表盘
+│   └── training_monitor.py     # 训练监控
 │
-# 深度学习组件
-├── layers.py                     # 神经网络层实现
-├── models.py                     # 简单网络模型
-├── optimizers.py                 # 优化器实现
-├── performance.py                # 性能优化工具
+├── docs/                       # 文档目录
+│   ├── USAGE_GUIDE.md         # 使用指南
+│   ├── OPTIMIZATION_SUMMARY.md # 优化说明
+│   └── COMPLETION_REPORT.md   # 完成报告
 │
-# PyTorch高级功能
-├── models_torch.py               # PyTorch模型实现
-├── training.py                   # 训练器和配置
-├── evaluation.py                 # 模型评估
-├── monitoring.py                 # 性能监控
-├── data.py                       # 数据加载器
-├── kaggle_data.py               # Kaggle优化数据管线
-├── kaggle_models.py             # 竞赛级模型
-│
-# LLM架构
-├── llm_architecture.py          # LLaMA完整实现
-├── llm_visualization.py         # LLM架构可视化
-│
-# 可视化与分析
-├── visualization.py              # 数据分析仪表盘
-├── training_monitor.py          # 训练过程监控
-│
-└── models/
-    └── cifar10_competition.py    # CIFAR-10竞赛模型
-
-# 统一入口
-run_example.py                    # 集成所有功能的统一入口
-                                 # 包含Prompt Engineering与Few-shot技术
-```
-
-## 📦 安装依赖
-
-### 1️⃣ 最小安装（Prompt Engineering + 简单神经网络）
-```bash
-pip install numpy matplotlib
-```
-
-### 2️⃣ 基础安装（深度学习基础功能）
-```bash
-pip install numpy matplotlib torch torchvision pandas
-```
-
-### 3️⃣ 推荐安装（完整功能，不含可选依赖）
-```bash
-pip install numpy matplotlib torch torchvision pandas plotly dash albumentations timm
-```
-
-### 4️⃣ 完整安装（所有功能）
-```bash
-pip install -r requirements.txt
-```
-
-### 5️⃣ GPU支持（根据CUDA版本选择）
-访问 [PyTorch官网](https://pytorch.org/) 获取正确的安装命令。
-```bash
-# 例如 CUDA 11.8
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-```
-
-> **📝 注意**：系统会自动检测已安装的依赖，缺少某些库不影响其他功能使用。
-
-## 🚀 快速开始
-
-### 安装依赖
-
-```bash
-# 基础依赖（必需）
-pip install numpy matplotlib
-
-# PyTorch（深度学习功能）
-pip install torch torchvision
-
-# 完整依赖（推荐）
-pip install pandas plotly dash albumentations timm
+└── checkpoints/                # 模型检查点（自动创建）
+    ├── basic/
+    ├── kaggle/
+    ├── fp32/
+    └── fp16/
 ```
 
 ### 运行方式
@@ -324,58 +254,6 @@ python run_example.py help
 - ✅ 自动化Prompt优化与输出评测
 - ✅ 模拟测试环境（无需实际API调用）
 
-## � 项目结构
-
-```
-MyAIStudy/
-├── run_example.py              # 统一入口，所有功能的主程序
-├── test_run_example.py         # 自动化测试脚本
-│
-├── ml_core/                    # 核心模块目录
-│   ├── __init__.py
-│   │
-│   # 基础实现
-│   ├── linear_algebra.py       # 线性代数与自动微分
-│   ├── backpropagation.py      # 反向传播详细实现
-│   ├── optimizer_comparison.py # 优化算法对比
-│   ├── cnn_transformer.py      # CNN与Transformer基础
-│   │
-│   # 神经网络组件
-│   ├── layers.py               # 神经网络层
-│   ├── models.py               # 简单网络模型
-│   ├── optimizers.py           # 优化器实现
-│   ├── performance.py          # 性能优化工具
-│   │
-│   # PyTorch训练系统
-│   ├── models_torch.py         # PyTorch模型
-│   ├── training.py             # 训练器和配置（含早停和检查点管理）
-│   ├── checkpointing.py        # 早停和检查点管理（已集成到training.py）
-│   ├── evaluation.py           # 模型评估
-│   ├── monitoring.py           # 性能监控
-│   ├── data.py                 # 数据加载器
-│   ├── kaggle_data.py          # Kaggle数据管线
-│   ├── kaggle_models.py        # 竞赛级模型
-│   │
-│   # LLM架构
-│   ├── llm_architecture.py     # LLaMA完整实现
-│   ├── llm_visualization.py    # LLM可视化
-│   │
-│   # 可视化与分析
-│   ├── visualization.py        # 数据仪表盘
-│   └── training_monitor.py     # 训练监控
-│
-├── docs/                       # 文档目录
-│   ├── USAGE_GUIDE.md         # 使用指南
-│   ├── OPTIMIZATION_SUMMARY.md # 优化说明
-│   └── COMPLETION_REPORT.md   # 完成报告
-│
-└── checkpoints/                # 模型检查点（自动创建）
-    ├── basic/
-    ├── kaggle/
-    ├── fp32/
-    └── fp16/
-```
-
 ## 🔬 代码示例
 
 ### Python API 使用
@@ -452,26 +330,6 @@ print(f"最佳模型: epoch={best_checkpoint['epoch']}, acc={best_checkpoint['sc
 - ✅ **可视化完整性**：包含所有关键组件的详细图表
 - ✅ **统一入口**：所有功能通过run_example.py统一调用，包含Prompt Engineering集成
 
-## 🧪 测试与验证
-
-### 运行测试
-```bash
-# 运行自动化测试
-python test_run_example.py
-
-# 预期输出：
-# ✓ 导入测试: 通过
-# ✓ Prompt Engineering: 通过
-# ✓ 系统信息: 通过
-# 总计: 3 通过, 0 失败
-```
-
-### 验证结果
-- ✅ **数值精度**：所有梯度检查误差 < 1e-10
-- ✅ **PyTorch一致性**：与官方实现参数差异 < 1e-8
-- ✅ **性能优化**：训练速度提升2-3倍，IO优化3-5倍
-- ✅ **模型精度**：CIFAR-10准确率 > 90%，量化精度损失 < 1%
-
 ## 📚 文档资源
 
 - 📖 **[使用指南](docs/USAGE_GUIDE.md)** - 详细的使用说明和常见问题
@@ -502,7 +360,14 @@ python test_run_example.py
 - 项目主页：[GitHub Repository](https://github.com/robert0921/MyAIStudy)
 - 问题反馈：[Issues](https://github.com/robert0921/MyAIStudy/issues)
 
-## � 版本历史
+## 📈 版本历史
+
+### v2.1 (2025-11-04)
+- ✅ **增强训练系统**：集成 `checkpointing.py` 功能
+- ✅ **智能早停**：EarlyStopping 类，防止过拟合
+- ✅ **检查点管理**：CheckpointManager 类，自动管理模型检查点
+- ✅ **依赖优化**：合并 requirements.txt，统一依赖管理
+- ✅ **文档更新**：完善 README，添加新功能说明
 
 ### v2.0 (2025-11-04)
 - ✅ **代码整合**：统一入口，集成所有功能
