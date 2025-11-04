@@ -5,24 +5,56 @@
 import sys
 import os
 import time
-import numpy as np
-import pandas as pd
-import torch
-import torch.nn as nn
-import torch.distributed as dist
-import torch.multiprocessing as mp
-from torch.nn.parallel import DistributedDataParallel as DDP
 from typing import List, Dict, Any
 
+# 尝试导入numpy和pandas
+try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+except ImportError:
+    print("Warning: numpy not available")
+    NUMPY_AVAILABLE = False
+
+try:
+    import pandas as pd
+    PANDAS_AVAILABLE = True
+except ImportError:
+    print("Warning: pandas not available")
+    PANDAS_AVAILABLE = False
+
+# 尝试导入torch相关模块
+try:
+    import torch
+    import torch.nn as nn
+    import torch.distributed as dist
+    import torch.multiprocessing as mp
+    from torch.nn.parallel import DistributedDataParallel as DDP
+    TORCH_AVAILABLE = True
+except ImportError:
+    print("Warning: PyTorch not available, some features disabled")
+    TORCH_AVAILABLE = False
+    torch = None
+    nn = None
+    dist = None
+    mp = None
+    DDP = None
+
 # 基础模块导入
-from ml_core.models_torch import CIFAR10Net, QuantizedCIFAR10Net
+if TORCH_AVAILABLE:
+    try:
+        from ml_core.models_torch import CIFAR10Net, QuantizedCIFAR10Net
+        MODELS_AVAILABLE = True
+    except ImportError as e:
+        print(f"Warning: models_torch not available: {e}")
+        MODELS_AVAILABLE = False
+else:
+    MODELS_AVAILABLE = False
 
 # 尝试导入可选模块
 try:
     from ml_core.kaggle_models import create_kaggle_model
     KAGGLE_MODELS_AVAILABLE = True
 except ImportError:
-    print("Warning: timm not available, Kaggle models disabled")
     KAGGLE_MODELS_AVAILABLE = False
 
 try:
@@ -30,24 +62,45 @@ try:
     from ml_core.llm_visualization import create_llama_visualization
     LLM_AVAILABLE = True
 except ImportError:
-    print("Warning: LLM modules not fully available")
     LLM_AVAILABLE = False
 
-from ml_core.data import get_cifar10_loaders
+if TORCH_AVAILABLE:
+    try:
+        from ml_core.data import get_cifar10_loaders
+        DATA_AVAILABLE = True
+    except ImportError:
+        DATA_AVAILABLE = False
+else:
+    DATA_AVAILABLE = False
+
 try:
     from ml_core.kaggle_data import get_kaggle_loaders
     KAGGLE_DATA_AVAILABLE = True
 except ImportError:
     KAGGLE_DATA_AVAILABLE = False
 
-from ml_core.training import Trainer, TrainerConfig
-from ml_core.evaluation import ModelEvaluator
-from ml_core.monitoring import PerformanceMonitor
+if TORCH_AVAILABLE:
+    try:
+        from ml_core.training import Trainer, TrainerConfig
+        from ml_core.evaluation import ModelEvaluator
+        from ml_core.monitoring import PerformanceMonitor
+        TRAINING_AVAILABLE = True
+    except ImportError:
+        TRAINING_AVAILABLE = False
+else:
+    TRAINING_AVAILABLE = False
 
 # SNN相关导入
-from ml_core.models import SimpleNN
-from ml_core.optimizers import Adam
-from ml_core.performance import benchmark_matmul
+if NUMPY_AVAILABLE:
+    try:
+        from ml_core.models import SimpleNN
+        from ml_core.optimizers import Adam
+        from ml_core.performance import benchmark_matmul
+        SNN_AVAILABLE = True
+    except ImportError:
+        SNN_AVAILABLE = False
+else:
+    SNN_AVAILABLE = False
 
 # Dashboard相关导入
 try:
@@ -116,13 +169,16 @@ class FewShotManager:
 
 def setup(rank, world_size):
     """设置分布式训练环境"""
+    if not TORCH_AVAILABLE or dist is None:
+        raise RuntimeError("PyTorch not available")
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = '12355'
     dist.init_process_group("nccl", rank=rank, world_size=world_size)
 
 def cleanup():
     """清理分布式训练环境"""
-    dist.destroy_process_group()
+    if TORCH_AVAILABLE and dist is not None:
+        dist.destroy_process_group()
 
 def demonstrate_prompt_engineering():
     """演示Prompt Engineering与Few-shot技术"""
@@ -174,6 +230,10 @@ def demonstrate_snn_performance():
     print("\n" + "="*60)
     print("⚡ 简单神经网络 (SNN) 性能演示")
     print("="*60)
+    
+    if not SNN_AVAILABLE:
+        print("❌ SNN模块不可用，请安装numpy: pip install numpy")
+        return
     
     # 1. 矩阵运算性能测试
     print("\n1. 运行矩阵乘法性能测试...")
@@ -259,26 +319,40 @@ def run_dashboard():
         return
     
     try:
-        # 生成示例数据
-        print("生成示例数据...")
-        np.random.seed(42)
-        n_samples = 1000
+        # 1. 尝试加载数据
+        df = None
+        try:
+            # 尝试从文件加载
+            if os.path.exists('data.csv'):
+                df = load_data('data.csv')
+                print("✓ 从文件加载数据成功")
+        except Exception as e:
+            print(f"   从文件加载失败: {e}")
         
-        df = pd.DataFrame({
-            'date': pd.date_range('2023-01-01', periods=n_samples, freq='D'),
-            'A': np.random.randn(n_samples).cumsum(),
-            'B': np.random.randn(n_samples).cumsum(),
-            'C': np.random.randint(1, 100, n_samples)
-        })
+        # 如果文件不存在或加载失败，生成示例数据
+        if df is None:
+            print("\n生成示例数据...")
+            np.random.seed(42)
+            n_samples = 1000
+            
+            df = pd.DataFrame({
+                'date': pd.date_range('2023-01-01', periods=n_samples, freq='D'),
+                'A': np.random.randn(n_samples).cumsum(),
+                'B': np.random.randn(n_samples).cumsum() * 2 + 1,
+                'C': np.random.randint(1, 100, n_samples),
+                'D': np.random.exponential(2, n_samples)
+            })
+            print(f"✓ 生成示例数据完成")
         
-        print(f"数据概览:")
+        print(f"\n数据概览:")
         print(f"- 行数: {len(df):,}")
         print(f"- 列数: {len(df.columns)}")
         print(f"- 列名: {list(df.columns)}")
         
-        # 启动仪表盘
+        # 2. 启动仪表盘
         print("\n启动数据分析仪表盘...")
         print("注意: 仪表盘将在浏览器中打开")
+        print("      按 Ctrl+C 停止仪表盘服务")
         
         create_dashboard(
             df=df,
@@ -286,8 +360,10 @@ def run_dashboard():
             default_columns=['A', 'B']
         )
         
+    except KeyboardInterrupt:
+        print("\n仪表盘服务已停止")
     except Exception as e:
-        print(f"仪表盘启动失败: {e}")
+        print(f"\n仪表盘启动失败: {e}")
         print("请确保安装了相关依赖: pip install plotly dash")
     
     print("\n" + "="*60)
@@ -325,8 +401,12 @@ def demonstrate_llm_architecture():
     # 前向传播
     try:
         with torch.no_grad():
-            output = model(input_ids)
-            print(f"   输出形状: {output.shape}")
+            outputs = model(input_ids)
+            if isinstance(outputs, dict):
+                logits = outputs.get('logits', outputs)
+            else:
+                logits = outputs
+            print(f"   输出logits形状: {logits.shape}")
     except Exception as e:
         print(f"   前向传播失败: {e}")
         return
@@ -340,8 +420,11 @@ def demonstrate_llm_architecture():
         x = torch.randn(batch_size, seq_len, 512)
         
         with torch.no_grad():
-            attn_output = attention(x)
-            print(f"   注意力输出形状: {attn_output.shape}")
+            attn_out = attention(x)
+            # 处理可能的元组返回值
+            if isinstance(attn_out, tuple):
+                attn_out = attn_out[0]
+            print(f"   注意力输出形状: {attn_out.shape}")
     except Exception as e:
         print(f"   注意力演示失败: {e}")
     
@@ -351,21 +434,73 @@ def demonstrate_llm_architecture():
         from ml_core.llm_architecture import RotaryPositionalEmbedding
         
         rope = RotaryPositionalEmbedding(dim=64)
-        q = torch.randn(batch_size, 8, seq_len, 64)
+        q = torch.randn(batch_size, 8, seq_len, 64)  # [batch, heads, seq, head_dim]
         k = torch.randn(batch_size, 8, seq_len, 64)
         
         with torch.no_grad():
-            q_rot, k_rot = rope(q, k)
-            print(f"   RoPE输出形状: q={q_rot.shape}, k={k_rot.shape}")
+            q_with_rope, k_with_rope = rope(q, k)
+            print(f"   RoPE编码后的Q形状: {q_with_rope.shape}")
+            print(f"   RoPE编码后的K形状: {k_with_rope.shape}")
     except Exception as e:
         print(f"   RoPE演示失败: {e}")
     
-    print("\n5. 创建架构可视化...")
+    # 5. 演示残差连接和层归一化
+    print("\n5. 演示残差连接和RMSNorm...")
+    try:
+        from ml_core.llm_architecture import RMSNorm, TransformerBlock
+        
+        norm = RMSNorm(d_model=512)
+        transformer_block = TransformerBlock(d_model=512, n_heads=8, d_ff=2048)
+        
+        x = torch.randn(batch_size, seq_len, 512)
+        
+        with torch.no_grad():
+            # 原始输入
+            print(f"   输入均值: {x.mean():.4f}, 标准差: {x.std():.4f}")
+            
+            # 经过RMSNorm
+            normed_x = norm(x)
+            print(f"   RMSNorm后均值: {normed_x.mean():.4f}, 标准差: {normed_x.std():.4f}")
+            
+            # 经过Transformer块（包含残差连接）
+            block_out = transformer_block(x)
+            if isinstance(block_out, tuple):
+                block_out = block_out[0]
+            print(f"   Transformer块输出形状: {block_out.shape}")
+    except Exception as e:
+        print(f"   Transformer演示失败: {e}")
+    
+    # 6. 演示文本生成
+    print("\n6. 演示文本生成...")
+    try:
+        # 创建简单的输入序列
+        input_sequence = torch.randint(1, 1000, (1, 5))  # 避免使用0（可能是pad token）
+        print(f"   输入序列: {input_sequence.tolist()}")
+        
+        # 检查模型是否有generate方法
+        if hasattr(model, 'generate'):
+            with torch.no_grad():
+                generated = model.generate(
+                    input_sequence,
+                    max_new_tokens=10,
+                    temperature=1.0,
+                    do_sample=True
+                )
+                print(f"   生成序列: {generated.tolist()}")
+                print(f"   新生成的token数: {generated.shape[1] - input_sequence.shape[1]}")
+        else:
+            print("   模型不支持generate方法，跳过文本生成演示")
+    except Exception as e:
+        print(f"   文本生成失败: {e}")
+    
+    # 7. 创建架构可视化
+    print("\n7. 创建架构可视化...")
     try:
         viz = create_llama_visualization()
-        print("✓ LLaMA架构可视化已生成")
+        print("   ✓ LLaMA架构可视化已生成")
     except Exception as e:
         print(f"   可视化生成失败: {e}")
+        print("   请确保安装了matplotlib: pip install matplotlib")
     
     print("\n" + "="*60)
     print("✅ LLM 架构演示完成!")
@@ -376,6 +511,10 @@ def demonstrate_fundamentals():
     print("\n" + "="*60)
     print("🧮 深度学习基础知识综合演示")
     print("="*60)
+    
+    if not NUMPY_AVAILABLE:
+        print("❌ 基础模块不可用，请安装numpy: pip install numpy")
+        return None
     
     results = {}
     
@@ -429,40 +568,362 @@ def demonstrate_fundamentals():
     
     return results
 
+def train_kaggle_model(rank, world_size, config):
+    """训练Kaggle竞赛优化模型（分布式训练）"""
+    if not TORCH_AVAILABLE:
+        print("PyTorch not available")
+        return
+    
+    print(f"   在GPU {rank}上训练Kaggle竞赛模型...")
+    
+    # 设置分布式环境
+    setup(rank, world_size)
+    
+    # 设置设备
+    device = torch.device(f"cuda:{rank}" if torch.cuda.is_available() else "cpu")
+    
+    # 创建Kaggle竞赛模型（模块化架构）
+    if KAGGLE_MODELS_AVAILABLE:
+        kaggle_model = create_kaggle_model(
+            model_name="efficientnet_b3",  # 或 "custom_resnet"
+            num_classes=10
+        ).to(device)
+    elif MODELS_AVAILABLE:
+        # 使用基础模型
+        kaggle_model = CIFAR10Net().to(device)
+        if rank == 0:
+            print("   使用基础CIFAR10模型替代Kaggle模型")
+    
+    # 包装为DDP模型
+    kaggle_model = DDP(kaggle_model, device_ids=[rank])
+    
+    # 使用优化的数据加载器
+    if KAGGLE_DATA_AVAILABLE:
+        train_loader, val_loader = get_kaggle_loaders(
+            batch_size=config.batch_size,
+            num_workers=config.num_workers,
+            distributed=True
+        )
+    else:
+        # 使用CIFAR-10作为替代
+        train_loader, val_loader = get_cifar10_loaders(
+            batch_size=config.batch_size,
+            num_workers=config.num_workers,
+            distributed=True
+        )
+    
+    # 创建训练器
+    trainer = Trainer(
+        model=kaggle_model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        config=config,
+        device=device,
+        rank=rank
+    )
+    
+    if rank == 0:
+        print("\n   训练Kaggle竞赛模型...")
+    results = trainer.train()
+    
+    if rank == 0:
+        print("\n   Kaggle模型训练结果:")
+        for key, value in results.items():
+            print(f"   {key}: {value}")
+    
+    # 清理
+    cleanup()
+
+def train_distributed(rank, world_size, config):
+    """分布式训练函数（用于FP32/FP16对比）"""
+    if not TORCH_AVAILABLE or not TRAINING_AVAILABLE:
+        print("Training modules not available")
+        return
+    
+    if rank == 0:
+        print(f"   在GPU {rank}上运行训练...")
+    
+    # 设置分布式环境
+    setup(rank, world_size)
+    
+    # 设置设备
+    device = torch.device(f"cuda:{rank}" if torch.cuda.is_available() else "cpu")
+    
+    # 创建评估器
+    evaluator = ModelEvaluator(device)
+    
+    # 获取数据加载器（展示数据管线优化）
+    train_loader, val_loader = get_cifar10_loaders(
+        batch_size=config.batch_size,
+        num_workers=config.num_workers,
+        distributed=True
+    )
+    
+    # 创建损失函数
+    criterion = nn.CrossEntropyLoss()
+    
+    # 训练基准模型（展示模型模块化）
+    base_model = CIFAR10Net().to(device)
+    base_model = DDP(base_model, device_ids=[rank])
+    
+    trainer = Trainer(
+        model=base_model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        config=config,
+        device=device,
+        rank=rank
+    )
+    
+    if rank == 0:
+        precision_type = "FP16" if config.mixed_precision else "FP32"
+        print(f"\n   训练基准模型 ({precision_type})...")
+    
+    trainer.train()
+    
+    # 评估基准模型
+    if rank == 0:
+        print("\n   评估基准模型...")
+        model_name = "fp16_baseline" if config.mixed_precision else "fp32_baseline"
+        evaluator.evaluate_model(base_model, val_loader, model_name, criterion)
+    
+    if config.quantize and rank == 0:
+        # 创建并训练量化模型
+        print("\n   训练量化模型...")
+        quant_model = QuantizedCIFAR10Net().to(device)
+        quant_model = DDP(quant_model, device_ids=[rank])
+        
+        trainer = Trainer(
+            model=quant_model,
+            train_loader=train_loader,
+            val_loader=val_loader,
+            config=config,
+            device=device,
+            rank=rank
+        )
+        trainer.train()
+        
+        # 评估量化模型
+        print("\n   评估量化模型...")
+        evaluator.evaluate_model(quant_model, val_loader, "quantized", criterion)
+        
+        # 比较模型精度
+        evaluator.compare_models("fp32_baseline", "quantized")
+    
+    # 清理
+    cleanup()
+
 def run_deep_learning_training():
     """运行深度学习训练模块"""
     print("\n" + "="*60)
     print("🎯 深度学习训练模块")
     print("="*60)
     
-    # 配置训练参数
-    config = TrainerConfig(
-        batch_size=64,
-        num_workers=4,
-        learning_rate=0.001,
-        num_epochs=5,
-        mixed_precision=True,
-        save_dir='checkpoints'
-    )
+    if not TORCH_AVAILABLE or not TRAINING_AVAILABLE:
+        print("❌ 训练模块不可用，请安装PyTorch: pip install torch torchvision")
+        return
     
     # 检查是否可用GPU
     if torch.cuda.is_available():
         n_gpus = torch.cuda.device_count()
         print(f"\n找到 {n_gpus} 个GPU设备")
-        device = torch.device("cuda:0")
+        
+        print("\n选择训练模式:")
+        print("1. 单GPU基础训练 (快速演示)")
+        print("2. Kaggle竞赛模型训练 (分布式)")
+        print("3. 性能对比 (FP32 vs FP16)")
+        print("4. 完整训练流程")
+        
+        try:
+            train_choice = input("\n请选择 (1-4, 默认1): ").strip()
+            if not train_choice:
+                train_choice = "1"
+        except (KeyboardInterrupt, EOFError):
+            print("\n使用默认选项: 1")
+            train_choice = "1"
+        
+        if train_choice == "1":
+            # 单GPU快速训练
+            print("\n运行单GPU基础训练...")
+            config = TrainerConfig(
+                batch_size=64,
+                num_workers=4,
+                learning_rate=0.001,
+                num_epochs=3,
+                mixed_precision=True,
+                save_dir='checkpoints/basic'
+            )
+            
+            device = torch.device("cuda:0")
+            model = CIFAR10Net().to(device)
+            train_loader, val_loader = get_cifar10_loaders(
+                batch_size=config.batch_size,
+                num_workers=config.num_workers
+            )
+            
+            trainer = Trainer(
+                model=model,
+                train_loader=train_loader,
+                val_loader=val_loader,
+                config=config,
+                device=device
+            )
+            
+            print("\n开始训练...")
+            results = trainer.train()
+            
+            print("\n训练结果:")
+            for key, value in results.items():
+                print(f"   {key}: {value}")
+        
+        elif train_choice == "2":
+            # Kaggle竞赛模型训练
+            print("\n运行Kaggle竞赛模型训练...")
+            kaggle_config = TrainerConfig(
+                batch_size=32,
+                num_workers=8,
+                learning_rate=0.0003,
+                num_epochs=10,
+                quantize=False,
+                mixed_precision=True,
+                dropout_rate=0.3,
+                optimizer_type="adamw",
+                scheduler_type="cosine",
+                warmup_epochs=5,
+                early_stopping_patience=10,
+                save_dir='checkpoints/kaggle'
+            )
+            
+            mp.spawn(
+                train_kaggle_model,
+                args=(n_gpus, kaggle_config),
+                nprocs=n_gpus,
+                join=True
+            )
+        
+        elif train_choice == "3":
+            # 性能对比训练
+            print("\n运行性能对比 (FP32 vs FP16)...")
+            
+            # FP32配置
+            fp32_config = TrainerConfig(
+                batch_size=64,
+                num_workers=4,
+                learning_rate=0.001,
+                num_epochs=5,
+                quantize=False,
+                mixed_precision=False,
+                save_dir='checkpoints/fp32'
+            )
+            
+            # FP16配置
+            fp16_config = TrainerConfig(
+                batch_size=64,
+                num_workers=4,
+                learning_rate=0.001,
+                num_epochs=5,
+                quantize=False,
+                mixed_precision=True,
+                save_dir='checkpoints/fp16'
+            )
+            
+            # 运行FP32训练
+            print("\n1. 运行FP32基准测试...")
+            mp.spawn(
+                train_distributed,
+                args=(n_gpus, fp32_config),
+                nprocs=n_gpus,
+                join=True
+            )
+            
+            # 运行FP16训练
+            print("\n2. 运行FP16混合精度测试...")
+            mp.spawn(
+                train_distributed,
+                args=(n_gpus, fp16_config),
+                nprocs=n_gpus,
+                join=True
+            )
+            
+            print("\n性能对比完成！")
+        
+        elif train_choice == "4":
+            # 完整训练流程
+            print("\n运行完整训练流程...")
+            
+            # Kaggle模型训练
+            print("\n第1步: Kaggle竞赛模型训练")
+            kaggle_config = TrainerConfig(
+                batch_size=32,
+                num_workers=8,
+                learning_rate=0.0003,
+                num_epochs=10,
+                mixed_precision=True,
+                save_dir='checkpoints/kaggle'
+            )
+            mp.spawn(
+                train_kaggle_model,
+                args=(n_gpus, kaggle_config),
+                nprocs=n_gpus,
+                join=True
+            )
+            
+            # FP32 vs FP16对比
+            print("\n第2步: 性能对比测试")
+            fp32_config = TrainerConfig(
+                batch_size=64,
+                num_workers=4,
+                learning_rate=0.001,
+                num_epochs=5,
+                mixed_precision=False,
+                save_dir='checkpoints/fp32'
+            )
+            mp.spawn(
+                train_distributed,
+                args=(n_gpus, fp32_config),
+                nprocs=n_gpus,
+                join=True
+            )
+            
+            fp16_config = TrainerConfig(
+                batch_size=64,
+                num_workers=4,
+                learning_rate=0.001,
+                num_epochs=5,
+                mixed_precision=True,
+                save_dir='checkpoints/fp16'
+            )
+            mp.spawn(
+                train_distributed,
+                args=(n_gpus, fp16_config),
+                nprocs=n_gpus,
+                join=True
+            )
+            
+            print("\n完整训练流程完成！")
+        
+        else:
+            print(f"无效选择: {train_choice}，使用默认单GPU训练")
+            train_choice = "1"
+    
     else:
         print("\n未找到GPU设备，使用CPU训练")
+        config = TrainerConfig(
+            batch_size=32,
+            num_workers=2,
+            learning_rate=0.001,
+            num_epochs=2,
+            mixed_precision=False,
+            save_dir='checkpoints/cpu'
+        )
+        
         device = torch.device("cpu")
-    
-    # 创建模型和数据
-    try:
         model = CIFAR10Net().to(device)
         train_loader, val_loader = get_cifar10_loaders(
             batch_size=config.batch_size,
             num_workers=config.num_workers
         )
         
-        # 创建训练器
         trainer = Trainer(
             model=model,
             train_loader=train_loader,
@@ -477,9 +938,6 @@ def run_deep_learning_training():
         print("\n训练结果:")
         for key, value in results.items():
             print(f"   {key}: {value}")
-            
-    except Exception as e:
-        print(f"训练失败: {e}")
     
     print("\n" + "="*60)
     print("✅ 深度学习训练模块完成!")
@@ -488,95 +946,75 @@ def run_deep_learning_training():
 def print_system_info():
     """打印系统信息和功能说明"""
     print("\n" + "="*80)
-    print("🎯 深度学习训练与架构演示系统 - 功能说明")
+    print("🎯 深度学习训练与架构演示系统 v2.0")
     print("="*80)
     
-    print("\n📋 系统功能:")
-    print("1. 🧮 线性代数与自动微分基础")
-    print("   • 矩阵运算与几何变换")
-    print("   • Jacobian 矩阵计算")
-    print("   • 链式法则详细推导")
-    print("   • 手写线性层和ReLU激活")
-    print("   • 数值梯度检查")
+    print("\n📋 核心功能模块:")
+    print("\n1. 🧮 线性代数与自动微分基础")
+    print("   • 矩阵运算与几何变换 • Jacobian 矩阵计算")
+    print("   • 链式法则详细推导   • 手写线性层和ReLU激活")
+    print("   • 数值梯度检查       • PyTorch autograd对比")
     
     print("\n2. 🔄 反向传播机制详解")
-    print("   • 手推两层网络梯度公式")
-    print("   • 与PyTorch autograd对比验证")
-    print("   • 逐步演示反向传播过程")
-    print("   • 数值方法验证梯度计算")
+    print("   • 手推两层网络梯度公式 • 逐步演示反向传播过程")
+    print("   • 数值方法验证梯度     • 训练损失曲线可视化")
     
     print("\n3. ⚙️ 优化算法数学原理")
-    print("   • SGD、Adam、RMSProp详细实现")
-    print("   • MNIST数据集收敛曲线对比")
-    print("   • 学习率对收敛的影响")
-    print("   • 优化轨迹可视化")
+    print("   • SGD/Adam/RMSProp实现 • MNIST收敛曲线对比")
+    print("   • 学习率影响分析       • 优化轨迹可视化")
     
-    print("\n4. 🧠 卷积与Transformer基础")
-    print("   • 手写CNN卷积层实现")
-    print("   • 自注意力机制详细推导")
-    print("   • 矩阵乘法在深度学习中的意义")
-    print("   • CNN vs Transformer特点对比")
+    print("\n4. 🧠 CNN与Transformer基础")
+    print("   • 手写卷积层实现       • 自注意力机制推导")
+    print("   • 矩阵乘法几何意义     • CNN vs Transformer对比")
     
-    print("\n5. 🚀 LLM 架构原理演示")
-    print("   • Attention 机制 (多头自注意力)")
-    print("   • RoPE 位置编码 (旋转位置编码)")
-    print("   • 残差连接和 RMS 归一化")
-    print("   • SwiGLU 前馈网络")
-    print("   • LLaMA 完整架构可视化")
-    print("   • 文本生成演示")
+    print("\n5. 🚀 LLM架构原理 (LLaMA)")
+    print("   • 多头自注意力机制     • RoPE旋转位置编码")
+    print("   • 残差连接与RMSNorm    • SwiGLU前馈网络")
+    print("   • 完整架构可视化       • 文本生成演示")
     
-    print("\n6. ⚡ 简单神经网络 (SNN) 性能测试")
-    print("   • 矩阵乘法性能基准测试")
-    print("   • NumPy vs Numba 性能对比")
-    print("   • 多层感知机训练演示")
-    print("   • 模型准确率评估")
+    print("\n6. ⚡ 简单神经网络性能测试")
+    print("   • 矩阵乘法性能基准     • NumPy vs Numba对比")
+    print("   • 多层感知机训练       • 准确率评估")
     
     print("\n7. 📊 数据分析仪表盘")
-    print("   • 交互式数据可视化")
-    print("   • 时间序列分析")
-    print("   • 多维数据探索")
-    print("   • 实时数据更新")
+    print("   • 交互式数据可视化     • 时间序列分析")
+    print("   • 多维数据探索         • 实时数据更新")
     
     print("\n8. 🎯 深度学习训练系统")
-    print("   • Kaggle 竞赛级模型训练")
-    print("   • 分布式数据并行 (DDP)")
-    print("   • 混合精度训练 (FP16)")
-    print("   • 模型量化和压缩")
-    print("   • 性能监控和对比")
-    print("   • 早停和学习率调度")
+    print("   • Kaggle竞赛级模型     • 分布式训练(DDP)")
+    print("   • 混合精度(FP16)       • 模型量化压缩")
+    print("   • 性能监控对比         • 早停与学习率调度")
     
-    print("\n9. 🧠 Prompt Engineering 与 Few-shot 技术")
-    print("   • 自动化 Prompt 调试与优化")
-    print("   • Few-shot 示例生成与管理")
-    print("   • 批量 Prompt 测试")
-    print("   • GPT 输出质量提升工具")
-    print("   • 自动化 Prompt 优化")
+    print("\n9. 🧠 Prompt Engineering")
+    print("   • 自动化Prompt调试     • Few-shot示例管理")
+    print("   • 批量Prompt测试       • 输出质量优化")
     
-    print("\n🔧 技术特性:")
-    print("• 完整的数学推导和手工实现")
-    print("• PyTorch 模型模块化设计")
-    print("• 优化的数据管线 (Dataset/DataLoader)")
-    print("• 多GPU 训练支持")
-    print("• 模型精度和显存监控")
-    print("• 可视化训练过程")
-    print("• 集成 Prompt Engineering 技术")
+    print("\n🔧 技术亮点:")
+    print("✓ 完整数学推导          ✓ PyTorch模块化设计")
+    print("✓ 优化数据管线          ✓ 多GPU训练支持")
+    print("✓ 模型精度监控          ✓ 可视化训练过程")
     
-    print("\n💻 使用方式:")
-    print("• 交互模式: python run_example.py")
-    print("• 基础演示: python run_example.py fundamentals")
-    print("• LLM 演示: python run_example.py llm")
-    print("• SNN 测试: python run_example.py snn")
-    print("• 仪表盘: python run_example.py dashboard")
-    print("• 训练模式: python run_example.py train")
-    print("• Prompt工程: python run_example.py prompt")
-    print("• 快速演示: python run_example.py quick")
+    print("\n💻 快速开始:")
+    print("  python run_example.py              # 交互菜单")
+    print("  python run_example.py quick        # 快速演示")
+    print("  python run_example.py all          # 完整演示")
+    print("  python run_example.py help         # 查看帮助")
     
-    print("\n📦 依赖要求:")
-    print("• torch, torchvision")
-    print("• numpy, pandas")
-    print("• matplotlib, plotly")
-    print("• dash (用于仪表盘)")
-    print("• openai (用于Prompt Engineering)")
+    # 显示模块可用性状态
+    print("\n📦 模块状态:")
+    status_items = [
+        ("PyTorch", TORCH_AVAILABLE),
+        ("NumPy", NUMPY_AVAILABLE),
+        ("Pandas", PANDAS_AVAILABLE),
+        ("LLM架构", LLM_AVAILABLE),
+        ("训练模块", TRAINING_AVAILABLE),
+        ("SNN模块", SNN_AVAILABLE),
+        ("Kaggle模型", KAGGLE_MODELS_AVAILABLE),
+        ("数据仪表盘", DASHBOARD_AVAILABLE),
+    ]
+    for name, available in status_items:
+        status = "✓" if available else "✗"
+        print(f"  {status} {name}")
     
     print("="*80)
 
@@ -584,72 +1022,132 @@ def main():
     """主菜单交互模式"""
     print_system_info()
     
-    print("\n请选择要运行的模块 (输入数字或 'all' 运行全部):")
+    print("\n请选择要运行的模块:")
     print("1. 基础知识演示 (线性代数、反向传播、优化器、CNN/Transformer)")
     print("2. LLM 架构演示")
     print("3. SNN 性能测试")
     print("4. 数据仪表盘")
     print("5. 深度学习训练")
     print("6. Prompt Engineering 与 Few-shot 技术")
-    print("7. 全部模块")
+    print("7. 快速演示 (精简版)")
+    print("8. 全部模块 (完整版)")
     
     try:
-        choice = input("\n请输入选择 (1-7): ").strip()
-    except KeyboardInterrupt:
+        choice = input("\n请输入选择 (1-8, 默认7): ").strip()
+        if not choice:
+            choice = "7"
+    except (KeyboardInterrupt, EOFError):
         print("\n程序被用户中断")
         return
-    except:
-        choice = "7"  # 默认运行全部
     
     # 根据选择运行对应模块
-    if choice in ["1", "7", "all"]:
-        demonstrate_fundamentals()
-    
-    if choice in ["2", "7", "all"]:
-        demonstrate_llm_architecture()
-    
-    if choice in ["3", "7", "all"]:
-        demonstrate_snn_performance()
-    
-    if choice in ["4", "7", "all"]:
-        run_dashboard()
-    
-    if choice in ["5", "7", "all"]:
-        run_deep_learning_training()
-    
-    if choice in ["6", "7", "all"]:
-        demonstrate_prompt_engineering()
-    
-    print("\n" + "="*80)
-    print("🎉 所有演示完成!")
-    print("="*80)
+    try:
+        if choice in ["1", "8", "all"]:
+            demonstrate_fundamentals()
+        
+        if choice in ["2", "7", "8", "all"]:
+            demonstrate_llm_architecture()
+        
+        if choice in ["3", "7", "8", "all"]:
+            demonstrate_snn_performance()
+        
+        if choice in ["4", "8", "all"]:
+            # 仪表盘需要用户确认
+            if choice in ["4"]:
+                run_dashboard()
+            else:
+                print("\n是否启动数据仪表盘? (y/n, 默认n): ", end="")
+                try:
+                    dashboard_choice = input().strip().lower()
+                    if dashboard_choice in ['y', 'yes']:
+                        run_dashboard()
+                    else:
+                        print("跳过数据仪表盘")
+                except (KeyboardInterrupt, EOFError):
+                    print("\n跳过数据仪表盘")
+        
+        if choice in ["5", "8", "all"]:
+            run_deep_learning_training()
+        
+        if choice in ["6", "7", "8", "all"]:
+            demonstrate_prompt_engineering()
+        
+        print("\n" + "="*80)
+        print("🎉 所有演示完成!")
+        print("="*80)
+        
+    except KeyboardInterrupt:
+        print("\n\n程序被用户中断")
+    except Exception as e:
+        print(f"\n\n运行出错: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
     # 命令行参数支持
     if len(sys.argv) > 1:
         mode = sys.argv[1].lower()
         
-        if mode == "fundamentals":
-            demonstrate_fundamentals()
-        elif mode == "llm":
-            demonstrate_llm_architecture()
-        elif mode == "snn":
-            demonstrate_snn_performance()
-        elif mode == "dashboard":
-            run_dashboard()
-        elif mode == "train":
-            run_deep_learning_training()
-        elif mode in ["prompt", "prompt_engineering", "fewshot"]:
-            demonstrate_prompt_engineering()
-        elif mode == "quick":
-            demonstrate_fundamentals()
-            demonstrate_llm_architecture()
-            demonstrate_snn_performance()
-            run_deep_learning_training()
-            demonstrate_prompt_engineering()
-        else:
-            print(f"未知模式: {mode}")
-            main()
+        try:
+            if mode == "fundamentals":
+                demonstrate_fundamentals()
+            elif mode == "llm":
+                demonstrate_llm_architecture()
+            elif mode == "snn":
+                demonstrate_snn_performance()
+            elif mode == "dashboard":
+                run_dashboard()
+            elif mode == "train":
+                run_deep_learning_training()
+            elif mode in ["prompt", "prompt_engineering", "fewshot"]:
+                demonstrate_prompt_engineering()
+            elif mode == "quick":
+                # 快速演示模式 - 只运行核心功能
+                print("\n" + "="*80)
+                print("🚀 快速演示模式")
+                print("="*80)
+                demonstrate_llm_architecture()
+                demonstrate_snn_performance()
+                demonstrate_prompt_engineering()
+            elif mode == "all":
+                # 完整演示模式
+                print("\n" + "="*80)
+                print("🎯 完整演示模式")
+                print("="*80)
+                demonstrate_fundamentals()
+                demonstrate_llm_architecture()
+                demonstrate_snn_performance()
+                demonstrate_prompt_engineering()
+                
+                print("\n是否运行深度学习训练? (y/n, 默认n): ", end="")
+                try:
+                    train_choice = input().strip().lower()
+                    if train_choice in ['y', 'yes']:
+                        run_deep_learning_training()
+                except (KeyboardInterrupt, EOFError):
+                    print("\n跳过深度学习训练")
+            elif mode == "help":
+                print("\n可用命令:")
+                print("  python run_example.py                    # 交互菜单模式")
+                print("  python run_example.py fundamentals       # 基础知识演示")
+                print("  python run_example.py llm               # LLM架构演示")
+                print("  python run_example.py snn               # 性能测试")
+                print("  python run_example.py dashboard         # 数据仪表盘")
+                print("  python run_example.py train             # 深度学习训练")
+                print("  python run_example.py prompt            # Prompt Engineering")
+                print("  python run_example.py quick             # 快速演示")
+                print("  python run_example.py all               # 完整演示")
+                print("  python run_example.py help              # 显示帮助")
+            else:
+                print(f"未知模式: {mode}")
+                print("使用 'python run_example.py help' 查看可用命令")
+                main()
+        except KeyboardInterrupt:
+            print("\n\n程序被用户中断")
+        except Exception as e:
+            print(f"\n\n运行出错: {e}")
+            import traceback
+            traceback.print_exc()
     else:
         # 交互模式
         main()
