@@ -1,6 +1,6 @@
-# 🎓 深度学习训练与架构演示系统 v2.1
+# 🎓 深度学习训练与架构演示系统 v2.2
 
-> 一个完整的深度学习基础知识实现和演示系统，从线性代数基础到LLM架构，以及Prompt Engineering技术的全套实现。
+> 一个完整的深度学习基础知识实现和演示系统，从线性代数基础到LLM架构、Prompt Engineering到模型压缩与剪枝的全套实现。
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
@@ -38,6 +38,7 @@
 - ✅ **分布式训练**：DDP多GPU并行训练
 - ✅ **混合精度**：FP16加速，性能提升2-3倍
 - ✅ **模型量化**：INT8量化，模型压缩75%
+- ✅ **模型剪枝**：幅度/结构化/全局/迭代剪枝
 - ✅ **数据管线**：LMDB缓存，IO优化3-5倍
 - ✅ **早停机制**：智能监控验证指标，防止过拟合
 - ✅ **检查点管理**：自动保存和管理模型检查点
@@ -87,7 +88,8 @@ MyAIStudy/
 │   ├── models_torch.py         # PyTorch模型
 │   ├── training.py             # 训练器和配置（含早停和检查点管理）
 │   ├── checkpointing.py        # 早停和检查点管理（已集成到training.py）
-│   ├── evaluation.py           # 模型评估
+│   ├── evaluation.py           # 模型评估与压缩效果对比
+│   ├── pruning.py              # 模型剪枝工具
 │   ├── monitoring.py           # 性能监控
 │   ├── data.py                 # 数据加载器
 │   ├── kaggle_data.py          # Kaggle数据管线
@@ -164,6 +166,12 @@ python run_example.py train
 python run_example.py prompt
 ```
 Few-shot示例管理、Prompt调试优化、批量测试。
+
+**模型剪枝与压缩**（约5分钟）
+```bash
+python run_example.py pruning
+```
+幅度剪枝、结构化剪枝、全局剪枝、迭代剪枝、稀疏度分析。
 
 **查看帮助**
 ```bash
@@ -254,6 +262,17 @@ python run_example.py help
 - ✅ 自动化Prompt优化与输出评测
 - ✅ 模拟测试环境（无需实际API调用）
 
+### 9. 🔪 模型剪枝与压缩
+**文件：`pruning.py`, `evaluation.py`**
+- ✅ 幅度剪枝（Magnitude Pruning）
+- ✅ 结构化剪枝（Structured Pruning）
+- ✅ 全局剪枝（Global Pruning）
+- ✅ 迭代剪枝（Iterative Pruning）
+- ✅ 稀疏度统计与分析
+- ✅ 模型大小对比（参数减少、内存占用）
+- ✅ 推理速度测试（加速比分析）
+- ✅ 精度保持验证（Top-1 Accuracy ±1%）
+
 ## 🔬 代码示例
 
 ### Python API 使用
@@ -307,6 +326,35 @@ results = trainer.train()
 # 加载最佳模型
 best_checkpoint = trainer.checkpoint_manager.load_best(model)
 print(f"最佳模型: epoch={best_checkpoint['epoch']}, acc={best_checkpoint['score']:.2f}%")
+
+# 4. 模型剪枝与压缩
+from ml_core.pruning import ModelPruner
+from ml_core.evaluation import ModelEvaluator
+
+# 创建剪枝器
+model = CIFAR10Net()
+pruner = ModelPruner(model)
+
+# 执行幅度剪枝（30%）
+pruner.magnitude_pruning(amount=0.3)
+
+# 查看稀疏度
+pruner.print_sparsity()
+
+# 比较压缩效果
+pruner.compare_with_original()
+
+# 评估剪枝后的精度
+evaluator = ModelEvaluator(device='cuda')
+results = evaluator.evaluate_compression(
+    original_model=pruner.original_model,
+    compressed_model=model,
+    data_loader=test_loader,
+    compression_type="pruning"
+)
+print(f"精度变化: {results['accuracy_diff']:+.2f}%")
+print(f"模型大小减少: {results['size_reduction_percent']:.2f}%")
+print(f"推理加速: {results['speedup']:.2f}x")
 ```
 
 ## 📊 性能指标
@@ -316,6 +364,7 @@ print(f"最佳模型: epoch={best_checkpoint['epoch']}, acc={best_checkpoint['sc
 | 数据管线优化 | IO性能提升3-5倍 | 吞吐量测试 |
 | 混合精度训练 | 训练速度提升2-3倍 | FP16 vs FP32 |
 | 模型量化 | 模型大小减少75% | 精度损失 < ±1% |
+| 模型剪枝 | 参数减少30-50% | 精度损失 < ±1% |
 | 梯度检查 | 数值误差 < 1e-10 | 解析vs数值梯度 |
 | CIFAR-10训练 | Top-1准确率 > 90% | 验证集评估 |
 | 分布式训练 | 线性扩展效率 | 多GPU性能 |
@@ -361,6 +410,16 @@ print(f"最佳模型: epoch={best_checkpoint['epoch']}, acc={best_checkpoint['sc
 - 问题反馈：[Issues](https://github.com/robert0921/MyAIStudy/issues)
 
 ## 📈 版本历史
+
+### v2.2 (2025-11-05)
+- ✅ **模型剪枝功能**：新增 `pruning.py` 模块，支持4种剪枝策略
+- ✅ **幅度剪枝**：基于权重绝对值的非结构化剪枝
+- ✅ **结构化剪枝**：移除整个通道或滤波器，真正减少计算量
+- ✅ **全局剪枝**：在所有层中统一选择要剪枝的权重
+- ✅ **迭代剪枝**：支持逐步提高剪枝比例的策略
+- ✅ **评估增强**：evaluation.py 新增压缩效果对比功能
+- ✅ **性能分析**：完整的精度、模型大小、推理速度对比
+- ✅ **文档完善**：README 添加剪枝功能详细说明和示例
 
 ### v2.1 (2025-11-04)
 - ✅ **增强训练系统**：集成 `checkpointing.py` 功能

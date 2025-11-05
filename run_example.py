@@ -109,6 +109,13 @@ try:
 except ImportError:
     DASHBOARD_AVAILABLE = False
 
+# Pruning相关导入
+try:
+    from ml_core.pruning import ModelPruner, demonstrate_pruning
+    PRUNING_AVAILABLE = True
+except ImportError:
+    PRUNING_AVAILABLE = False
+
 # =================== Prompt Engineering 集成代码 ===================
 class PromptDebugger:
     """自动化 Prompt 调试与质量分析"""
@@ -179,6 +186,29 @@ def cleanup():
     """清理分布式训练环境"""
     if TORCH_AVAILABLE and dist is not None:
         dist.destroy_process_group()
+
+def demonstrate_model_pruning():
+    """演示模型剪枝功能"""
+    print("\n" + "="*70)
+    print("🔪 模型剪枝与压缩演示")
+    print("="*70)
+    
+    if not PRUNING_AVAILABLE:
+        print("❌ 剪枝模块不可用，请检查安装")
+        return
+    
+    if not TORCH_AVAILABLE or not MODELS_AVAILABLE:
+        print("❌ PyTorch或模型模块不可用")
+        return
+    
+    # 调用剪枝演示函数
+    demonstrate_pruning()
+    
+    print("\n💡 实际应用提示:")
+    print("  1. 在真实场景中，剪枝后需要对模型进行微调")
+    print("  2. 可以使用 ModelEvaluator 比较剪枝前后的精度")
+    print("  3. 结构化剪枝可以真正减少计算量和内存占用")
+    print("  4. 建议使用迭代剪枝策略，逐步提高剪枝比例")
 
 def demonstrate_prompt_engineering():
     """演示Prompt Engineering与Few-shot技术"""
@@ -946,7 +976,7 @@ def run_deep_learning_training():
 def print_system_info():
     """打印系统信息和功能说明"""
     print("\n" + "="*80)
-    print("🎯 深度学习训练与架构演示系统 v2.0")
+    print("🎯 深度学习训练与架构演示系统 v2.2")
     print("="*80)
     
     print("\n📋 核心功能模块:")
@@ -989,7 +1019,12 @@ def print_system_info():
     print("   • 自动化Prompt调试     • Few-shot示例管理")
     print("   • 批量Prompt测试       • 输出质量优化")
     
-    print("\n🔧 技术亮点:")
+    print("\n� 模型剪枝与压缩")
+    print("   • 幅度剪枝(Magnitude)  • 结构化剪枝(Structured)")
+    print("   • 全局剪枝(Global)     • 迭代剪枝(Iterative)")
+    print("   • 稀疏度分析           • 压缩效果对比")
+    
+    print("\n�🔧 技术亮点:")
     print("✓ 完整数学推导          ✓ PyTorch模块化设计")
     print("✓ 优化数据管线          ✓ 多GPU训练支持")
     print("✓ 模型精度监控          ✓ 可视化训练过程")
@@ -1011,6 +1046,7 @@ def print_system_info():
         ("SNN模块", SNN_AVAILABLE),
         ("Kaggle模型", KAGGLE_MODELS_AVAILABLE),
         ("数据仪表盘", DASHBOARD_AVAILABLE),
+        ("模型剪枝", PRUNING_AVAILABLE),
     ]
     for name, available in status_items:
         status = "✓" if available else "✗"
@@ -1029,29 +1065,30 @@ def main():
     print("4. 数据仪表盘")
     print("5. 深度学习训练")
     print("6. Prompt Engineering 与 Few-shot 技术")
-    print("7. 快速演示 (精简版)")
-    print("8. 全部模块 (完整版)")
+    print("7. 模型剪枝与压缩")
+    print("8. 快速演示 (精简版)")
+    print("9. 全部模块 (完整版)")
     
     try:
-        choice = input("\n请输入选择 (1-8, 默认7): ").strip()
+        choice = input("\n请输入选择 (1-9, 默认8): ").strip()
         if not choice:
-            choice = "7"
+            choice = "8"
     except (KeyboardInterrupt, EOFError):
         print("\n程序被用户中断")
         return
     
     # 根据选择运行对应模块
     try:
-        if choice in ["1", "8", "all"]:
+        if choice in ["1", "9", "all"]:
             demonstrate_fundamentals()
         
-        if choice in ["2", "7", "8", "all"]:
+        if choice in ["2", "8", "9", "all"]:
             demonstrate_llm_architecture()
         
-        if choice in ["3", "7", "8", "all"]:
+        if choice in ["3", "8", "9", "all"]:
             demonstrate_snn_performance()
         
-        if choice in ["4", "8", "all"]:
+        if choice in ["4", "9", "all"]:
             # 仪表盘需要用户确认
             if choice in ["4"]:
                 run_dashboard()
@@ -1066,11 +1103,14 @@ def main():
                 except (KeyboardInterrupt, EOFError):
                     print("\n跳过数据仪表盘")
         
-        if choice in ["5", "8", "all"]:
+        if choice in ["5", "9", "all"]:
             run_deep_learning_training()
         
-        if choice in ["6", "7", "8", "all"]:
+        if choice in ["6", "8", "9", "all"]:
             demonstrate_prompt_engineering()
+        
+        if choice in ["7", "9", "all"]:
+            demonstrate_model_pruning()
         
         print("\n" + "="*80)
         print("🎉 所有演示完成!")
@@ -1101,6 +1141,8 @@ if __name__ == "__main__":
                 run_deep_learning_training()
             elif mode in ["prompt", "prompt_engineering", "fewshot"]:
                 demonstrate_prompt_engineering()
+            elif mode in ["pruning", "prune", "compression"]:
+                demonstrate_model_pruning()
             elif mode == "quick":
                 # 快速演示模式 - 只运行核心功能
                 print("\n" + "="*80)
