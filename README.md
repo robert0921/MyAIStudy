@@ -382,8 +382,6 @@ print(f"推理加速: {results['speedup']:.2f}x")
 ## 📚 文档资源
 
 - 📖 **[使用指南](docs/USAGE_GUIDE.md)** - 详细的使用说明和常见问题
-- 🔍 **[优化说明](docs/OPTIMIZATION_SUMMARY.md)** - 代码优化详情
-- ✅ **[完成报告](docs/COMPLETION_REPORT.md)** - 项目完成情况总结
 
 ## 🤝 贡献指南
 
