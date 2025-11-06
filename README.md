@@ -1,6 +1,6 @@
-# 🎓 深度学习训练与架构演示系统 v2.2
+# 🎓 深度学习训练与架构演示系统 v2.3
 
-> 一个完整的深度学习基础知识实现和演示系统，从线性代数基础到LLM架构、Prompt Engineering到模型压缩与剪枝的全套实现。
+> 一个完整的深度学习基础知识实现和演示系统，从线性代数基础到LLM架构、Prompt Engineering到大模型微调与推理优化的全套实现。
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
@@ -49,7 +49,21 @@
 - ✅ **批量测试**：并行测试多个Prompt
 - ✅ **输出评估**：自动化质量评测
 
-#### 5️⃣ 数据可视化
+#### 5️⃣ 大模型微调（LoRA/QLoRA/PEFT）
+- ✅ **LoRA低秩适配**：只训练0.5-1%参数
+- ✅ **QLoRA量化微调**：4-bit量化，节省75%显存
+- ✅ **PEFT统一接口**：参数高效训练方法
+- ✅ **微型ChatGPT训练**：1B-7B模型微调演示
+- ✅ **显存优化**：个人电脑可微调大模型
+
+#### 6️⃣ 推理优化（Batched Inference / KV Cache）
+- ✅ **KV Cache加速**：自回归生成提速2-10倍
+- ✅ **批量推理**：显著提高吞吐量
+- ✅ **性能监控**：延迟、吞吐量、显存追踪
+- ✅ **生产级部署**：实用的推理优化策略
+- ✅ **基准测试**：不同批次大小性能对比
+
+#### 7️⃣ 数据可视化
 - ✅ **交互式仪表盘**：实时数据探索
 - ✅ **训练监控**：损失曲线、学习率变化
 - ✅ **性能对比**：模型性能可视化对比
@@ -95,9 +109,11 @@ MyAIStudy/
 │   ├── kaggle_data.py          # Kaggle数据管线
 │   ├── kaggle_models.py        # 竞赛级模型
 │   │
-│   # LLM架构
+│   # LLM架构与优化
 │   ├── llm_architecture.py     # LLaMA完整实现
 │   ├── llm_visualization.py    # LLM可视化
+│   ├── finetuning.py           # LoRA/QLoRA/PEFT微调 (NEW v2.3)
+│   ├── inference_optimization.py # KV Cache/批量推理 (NEW v2.3)
 │   │
 │   # 可视化与分析
 │   ├── visualization.py        # 数据仪表盘
@@ -107,6 +123,8 @@ MyAIStudy/
 │   ├── USAGE_GUIDE.md         # 使用指南
 │   ├── OPTIMIZATION_SUMMARY.md # 优化说明
 │   └── COMPLETION_REPORT.md   # 完成报告
+│
+├── LLM_FEATURES_COMPLETION_REPORT.md  # 大模型功能完成报告 (NEW v2.3)
 │
 └── checkpoints/                # 模型检查点（自动创建）
     ├── basic/
@@ -172,6 +190,18 @@ Few-shot示例管理、Prompt调试优化、批量测试。
 python run_example.py pruning
 ```
 幅度剪枝、结构化剪枝、全局剪枝、迭代剪枝、稀疏度分析。
+
+**大模型微调**（约5-10分钟）🆕
+```bash
+python run_example.py finetuning
+```
+LoRA低秩适配、QLoRA量化微调、PEFT方法对比、参数效率分析。
+
+**推理优化**（约5分钟）🆕
+```bash
+python run_example.py inference
+```
+KV Cache加速演示、批量推理优化、性能基准测试、显存使用分析。
 
 **查看帮助**
 ```bash
@@ -273,6 +303,30 @@ python run_example.py help
 - ✅ 推理速度测试（加速比分析）
 - ✅ 精度保持验证（Top-1 Accuracy ±1%）
 
+### 10. 🎨 大模型微调（LoRA/QLoRA/PEFT）🆕
+**文件：`finetuning.py`**
+- ✅ **LoRA实现**：低秩适配矩阵 W' = W + BA·(alpha/rank)
+- ✅ **QLoRA实现**：4-bit量化 + LoRA，节省75%显存
+- ✅ **PEFT统一接口**：自动替换目标模块（q_proj, k_proj, v_proj, o_proj）
+- ✅ **SimpleLLM**：6层Transformer演示模型（vocab=50K）
+- ✅ **参数统计**：可训练参数占比0.5-1%
+- ✅ **三个完整演示**：
+  - demonstrate_lora_finetuning()：完整训练流程
+  - demonstrate_qlora_comparison()：QLoRA vs LoRA对比
+  - demonstrate_peft_methods()：不同rank配置对比
+
+### 11. ⚡ 推理优化（Batched Inference / KV Cache）🆕
+**文件：`inference_optimization.py`**
+- ✅ **KVCache类**：缓存Key-Value，避免重复计算
+- ✅ **AttentionWithKVCache**：支持增量更新的注意力层
+- ✅ **BatchedInferenceEngine**：批量推理引擎
+- ✅ **InferenceMetrics**：性能指标收集（延迟、吞吐量、显存）
+- ✅ **加速效果**：2-10倍生成速度提升
+- ✅ **三个完整演示**：
+  - demonstrate_kv_cache()：KV Cache原理
+  - demonstrate_batched_inference()：批量推理基准测试
+  - demonstrate_cache_vs_no_cache()：性能对比
+
 ## 🔬 代码示例
 
 ### Python API 使用
@@ -355,6 +409,70 @@ results = evaluator.evaluate_compression(
 print(f"精度变化: {results['accuracy_diff']:+.2f}%")
 print(f"模型大小减少: {results['size_reduction_percent']:.2f}%")
 print(f"推理加速: {results['speedup']:.2f}x")
+
+# 5. 大模型微调（LoRA）🆕
+from ml_core.finetuning import PEFTModel, SimpleLLM
+import torch
+
+# 创建基础模型
+model = SimpleLLM(vocab_size=50000, d_model=512, n_layers=6)
+
+# 应用LoRA（只训练0.5-1%参数）
+peft_model = PEFTModel(
+    model,
+    method='lora',
+    rank=8,           # 低秩维度
+    alpha=16,         # 缩放因子
+    target_modules=['q_proj', 'k_proj', 'v_proj', 'o_proj']
+)
+
+# 查看参数统计
+trainable = sum(p.numel() for p in peft_model.parameters() if p.requires_grad)
+total = sum(p.numel() for p in peft_model.parameters())
+print(f"可训练参数: {trainable:,} ({trainable/total*100:.2f}%)")
+
+# 训练（只更新LoRA参数）
+optimizer = torch.optim.AdamW(peft_model.parameters(), lr=1e-4)
+for step, (input_ids, labels) in enumerate(train_loader):
+    logits = peft_model(input_ids)
+    loss = F.cross_entropy(logits.view(-1, vocab_size), labels.view(-1))
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+
+# 6. 推理优化（KV Cache）🆕
+from ml_core.inference_optimization import BatchedInferenceEngine
+
+# 创建推理引擎
+engine = BatchedInferenceEngine(
+    model=your_model,
+    max_batch_size=32,
+    max_seq_len=512,
+    device='cuda'
+)
+
+# 生成文本（自动使用KV Cache）
+input_ids = torch.randint(0, vocab_size, (batch_size, prompt_len))
+generated, metrics = engine.generate(
+    input_ids,
+    max_new_tokens=50,
+    use_cache=True,      # 启用KV Cache（2-10x加速）
+    temperature=1.0,
+    top_k=50
+)
+
+print(f"延迟: {metrics.latency_ms:.2f} ms")
+print(f"吞吐量: {metrics.throughput_tokens_per_sec:.2f} tokens/s")
+print(f"显存使用: {metrics.memory_mb:.2f} MB")
+
+# 批量推理基准测试
+results = engine.benchmark_batch_sizes(
+    vocab_size=10000,
+    prompt_len=32,
+    max_new_tokens=50,
+    batch_sizes=[1, 2, 4, 8, 16],
+    use_cache=True
+)
 ```
 
 ## 📊 性能指标
@@ -365,6 +483,10 @@ print(f"推理加速: {results['speedup']:.2f}x")
 | 混合精度训练 | 训练速度提升2-3倍 | FP16 vs FP32 |
 | 模型量化 | 模型大小减少75% | 精度损失 < ±1% |
 | 模型剪枝 | 参数减少30-50% | 精度损失 < ±1% |
+| LoRA微调 🆕 | 可训练参数减少99% | 只训练0.5-1%参数 |
+| QLoRA微调 🆕 | 显存节省75% | 4-bit量化 + LoRA |
+| KV Cache 🆕 | 生成速度提升2-10倍 | 延迟降低 |
+| 批量推理 🆕 | 吞吐量提升3-8倍 | batch_size=4-16 |
 | 梯度检查 | 数值误差 < 1e-10 | 解析vs数值梯度 |
 | CIFAR-10训练 | Top-1准确率 > 90% | 验证集评估 |
 | 分布式训练 | 线性扩展效率 | 多GPU性能 |
@@ -409,6 +531,19 @@ print(f"推理加速: {results['speedup']:.2f}x")
 - 问题反馈：[Issues](https://github.com/robert0921/MyAIStudy/issues)
 
 ## 📈 版本历史
+
+### v2.3 (2025-11-06) 🆕
+- ✅ **大模型微调功能**：新增 `finetuning.py` 模块（600+ 行）
+- ✅ **LoRA实现**：低秩适配层，只训练0.5-1%参数
+- ✅ **QLoRA实现**：4-bit量化 + LoRA，显存节省75%
+- ✅ **PEFT统一接口**：参数高效训练方法统一管理
+- ✅ **推理优化功能**：新增 `inference_optimization.py` 模块（450+ 行）
+- ✅ **KV Cache实现**：缓存Key-Value，生成加速2-10倍
+- ✅ **批量推理引擎**：动态批处理，吞吐量提升3-8倍
+- ✅ **性能基准测试**：完整的延迟、吞吐量、显存使用分析
+- ✅ **交互式演示**：6个完整演示函数，可独立运行
+- ✅ **命令行集成**：`python run_example.py finetuning/inference`
+- ✅ **文档完善**：详细的实现报告和快速开始指南
 
 ### v2.2 (2025-11-05)
 - ✅ **模型剪枝功能**：新增 `pruning.py` 模块，支持4种剪枝策略

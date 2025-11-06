@@ -116,6 +116,28 @@ try:
 except ImportError:
     PRUNING_AVAILABLE = False
 
+# Fine-tuning相关导入
+try:
+    from ml_core.finetuning import (
+        demonstrate_lora_finetuning,
+        demonstrate_qlora_comparison,
+        demonstrate_peft_methods
+    )
+    FINETUNING_AVAILABLE = True
+except ImportError:
+    FINETUNING_AVAILABLE = False
+
+# Inference Optimization相关导入
+try:
+    from ml_core.inference_optimization import (
+        demonstrate_kv_cache,
+        demonstrate_batched_inference,
+        demonstrate_cache_vs_no_cache
+    )
+    INFERENCE_OPT_AVAILABLE = True
+except ImportError:
+    INFERENCE_OPT_AVAILABLE = False
+
 # =================== Prompt Engineering 集成代码 ===================
 class PromptDebugger:
     """自动化 Prompt 调试与质量分析"""
@@ -209,6 +231,112 @@ def demonstrate_model_pruning():
     print("  2. 可以使用 ModelEvaluator 比较剪枝前后的精度")
     print("  3. 结构化剪枝可以真正减少计算量和内存占用")
     print("  4. 建议使用迭代剪枝策略，逐步提高剪枝比例")
+
+def demonstrate_llm_finetuning():
+    """演示大模型微调 (LoRA/QLoRA/PEFT)"""
+    print("\n" + "="*70)
+    print("🎨 大模型微调演示 (LoRA/QLoRA/PEFT)")
+    print("="*70)
+    
+    if not FINETUNING_AVAILABLE:
+        print("❌ 微调模块不可用，请检查安装")
+        return
+    
+    if not TORCH_AVAILABLE:
+        print("❌ PyTorch不可用")
+        return
+    
+    print("\n选择演示内容:")
+    print("1. LoRA 微调演示")
+    print("2. QLoRA vs LoRA 对比")
+    print("3. PEFT 方法对比")
+    print("4. 全部演示")
+    
+    try:
+        choice = input("\n请选择 (1-4, 默认4): ").strip()
+        if not choice:
+            choice = "4"
+    except (KeyboardInterrupt, EOFError):
+        print("\n使用默认选项: 4")
+        choice = "4"
+    
+    try:
+        if choice in ["1", "4"]:
+            demonstrate_lora_finetuning()
+        
+        if choice in ["2", "4"]:
+            demonstrate_qlora_comparison()
+        
+        if choice in ["3", "4"]:
+            demonstrate_peft_methods()
+    
+    except Exception as e:
+        print(f"\n微调演示失败: {e}")
+        import traceback
+        traceback.print_exc()
+    
+    print("\n💡 实际应用提示:")
+    print("  1. LoRA适用于7B以下模型的高效微调")
+    print("  2. QLoRA可在单卡上微调30B+模型")
+    print("  3. 建议从rank=8开始尝试，根据效果调整")
+    print("  4. 只需训练0.1-1%的参数量，显著降低成本")
+    
+    print("\n" + "="*70)
+    print("✅ 大模型微调演示完成!")
+    print("="*70)
+
+def demonstrate_inference_optimization():
+    """演示推理优化 (Batched Inference / KV Cache)"""
+    print("\n" + "="*70)
+    print("⚡ 推理优化演示 (Batched Inference / KV Cache)")
+    print("="*70)
+    
+    if not INFERENCE_OPT_AVAILABLE:
+        print("❌ 推理优化模块不可用，请检查安装")
+        return
+    
+    if not TORCH_AVAILABLE:
+        print("❌ PyTorch不可用")
+        return
+    
+    print("\n选择演示内容:")
+    print("1. KV Cache 原理演示")
+    print("2. 批量推理优化")
+    print("3. 性能对比 (Cache vs No-Cache)")
+    print("4. 全部演示")
+    
+    try:
+        choice = input("\n请选择 (1-4, 默认4): ").strip()
+        if not choice:
+            choice = "4"
+    except (KeyboardInterrupt, EOFError):
+        print("\n使用默认选项: 4")
+        choice = "4"
+    
+    try:
+        if choice in ["1", "4"]:
+            demonstrate_kv_cache()
+        
+        if choice in ["2", "4"]:
+            demonstrate_batched_inference()
+        
+        if choice in ["3", "4"]:
+            demonstrate_cache_vs_no_cache()
+    
+    except Exception as e:
+        print(f"\n推理优化演示失败: {e}")
+        import traceback
+        traceback.print_exc()
+    
+    print("\n💡 实际应用提示:")
+    print("  1. KV Cache可将生成速度提升2-10倍")
+    print("  2. 批量推理提高吞吐量，但会增加延迟")
+    print("  3. 生产环境建议batch_size=4-16")
+    print("  4. 注意显存占用：KV Cache = 2×batch×layers×heads×seq_len×head_dim")
+    
+    print("\n" + "="*70)
+    print("✅ 推理优化演示完成!")
+    print("="*70)
 
 def demonstrate_prompt_engineering():
     """演示Prompt Engineering与Few-shot技术"""
@@ -976,7 +1104,7 @@ def run_deep_learning_training():
 def print_system_info():
     """打印系统信息和功能说明"""
     print("\n" + "="*80)
-    print("🎯 深度学习训练与架构演示系统 v2.2")
+    print("🎯 深度学习训练与架构演示系统 v2.3")
     print("="*80)
     
     print("\n📋 核心功能模块:")
@@ -1047,6 +1175,8 @@ def print_system_info():
         ("Kaggle模型", KAGGLE_MODELS_AVAILABLE),
         ("数据仪表盘", DASHBOARD_AVAILABLE),
         ("模型剪枝", PRUNING_AVAILABLE),
+        ("大模型微调", FINETUNING_AVAILABLE),
+        ("推理优化", INFERENCE_OPT_AVAILABLE),
     ]
     for name, available in status_items:
         status = "✓" if available else "✗"
@@ -1059,36 +1189,38 @@ def main():
     print_system_info()
     
     print("\n请选择要运行的模块:")
-    print("1. 基础知识演示 (线性代数、反向传播、优化器、CNN/Transformer)")
-    print("2. LLM 架构演示")
-    print("3. SNN 性能测试")
-    print("4. 数据仪表盘")
-    print("5. 深度学习训练")
-    print("6. Prompt Engineering 与 Few-shot 技术")
-    print("7. 模型剪枝与压缩")
-    print("8. 快速演示 (精简版)")
-    print("9. 全部模块 (完整版)")
+    print(" 1. 基础知识演示 (线性代数、反向传播、优化器、CNN/Transformer)")
+    print(" 2. LLM 架构演示")
+    print(" 3. SNN 性能测试")
+    print(" 4. 数据仪表盘")
+    print(" 5. 深度学习训练")
+    print(" 6. Prompt Engineering 与 Few-shot 技术")
+    print(" 7. 模型剪枝与压缩")
+    print(" 8. 大模型微调 (LoRA/QLoRA/PEFT)")
+    print(" 9. 推理优化 (Batched Inference / KV Cache)")
+    print("10. 快速演示 (精简版)")
+    print("11. 全部模块 (完整版)")
     
     try:
-        choice = input("\n请输入选择 (1-9, 默认8): ").strip()
+        choice = input("\n请输入选择 (1-11, 默认10): ").strip()
         if not choice:
-            choice = "8"
+            choice = "10"
     except (KeyboardInterrupt, EOFError):
         print("\n程序被用户中断")
         return
     
     # 根据选择运行对应模块
     try:
-        if choice in ["1", "9", "all"]:
+        if choice in ["1", "11", "all"]:
             demonstrate_fundamentals()
         
-        if choice in ["2", "8", "9", "all"]:
+        if choice in ["2", "10", "11", "all"]:
             demonstrate_llm_architecture()
         
-        if choice in ["3", "8", "9", "all"]:
+        if choice in ["3", "10", "11", "all"]:
             demonstrate_snn_performance()
         
-        if choice in ["4", "9", "all"]:
+        if choice in ["4", "11", "all"]:
             # 仪表盘需要用户确认
             if choice in ["4"]:
                 run_dashboard()
@@ -1103,14 +1235,20 @@ def main():
                 except (KeyboardInterrupt, EOFError):
                     print("\n跳过数据仪表盘")
         
-        if choice in ["5", "9", "all"]:
+        if choice in ["5", "11", "all"]:
             run_deep_learning_training()
         
-        if choice in ["6", "8", "9", "all"]:
+        if choice in ["6", "10", "11", "all"]:
             demonstrate_prompt_engineering()
         
-        if choice in ["7", "9", "all"]:
+        if choice in ["7", "11", "all"]:
             demonstrate_model_pruning()
+        
+        if choice in ["8", "10", "11", "all"]:
+            demonstrate_llm_finetuning()
+        
+        if choice in ["9", "10", "11", "all"]:
+            demonstrate_inference_optimization()
         
         print("\n" + "="*80)
         print("🎉 所有演示完成!")
@@ -1143,6 +1281,10 @@ if __name__ == "__main__":
                 demonstrate_prompt_engineering()
             elif mode in ["pruning", "prune", "compression"]:
                 demonstrate_model_pruning()
+            elif mode in ["finetuning", "finetune", "lora", "qlora", "peft"]:
+                demonstrate_llm_finetuning()
+            elif mode in ["inference", "inference_opt", "kv_cache", "batch_inference"]:
+                demonstrate_inference_optimization()
             elif mode == "quick":
                 # 快速演示模式 - 只运行核心功能
                 print("\n" + "="*80)
@@ -1151,6 +1293,8 @@ if __name__ == "__main__":
                 demonstrate_llm_architecture()
                 demonstrate_snn_performance()
                 demonstrate_prompt_engineering()
+                demonstrate_llm_finetuning()
+                demonstrate_inference_optimization()
             elif mode == "all":
                 # 完整演示模式
                 print("\n" + "="*80)
@@ -1160,6 +1304,9 @@ if __name__ == "__main__":
                 demonstrate_llm_architecture()
                 demonstrate_snn_performance()
                 demonstrate_prompt_engineering()
+                demonstrate_model_pruning()
+                demonstrate_llm_finetuning()
+                demonstrate_inference_optimization()
                 
                 print("\n是否运行深度学习训练? (y/n, 默认n): ", end="")
                 try:
@@ -1177,6 +1324,9 @@ if __name__ == "__main__":
                 print("  python run_example.py dashboard         # 数据仪表盘")
                 print("  python run_example.py train             # 深度学习训练")
                 print("  python run_example.py prompt            # Prompt Engineering")
+                print("  python run_example.py pruning           # 模型剪枝")
+                print("  python run_example.py finetuning        # 大模型微调 (LoRA/QLoRA/PEFT)")
+                print("  python run_example.py inference         # 推理优化 (KV Cache)")
                 print("  python run_example.py quick             # 快速演示")
                 print("  python run_example.py all               # 完整演示")
                 print("  python run_example.py help              # 显示帮助")
