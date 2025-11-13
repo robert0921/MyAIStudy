@@ -1,168 +1,264 @@
-# 🎓 深度学习训练与架构演示系统 v2.3
+# 🎓 MyAIStudy - AI工程师全栈培训系统 v3.0
 
-> 一个完整的深度学习基础知识实现和演示系统，从线性代数基础到LLM架构、Prompt Engineering到大模型微调与推理优化的全套实现。
+> 从Python入门到企业级AI应用开发的完整学习路径 | 36周系统化实战训练
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
+[![NumPy](https://img.shields.io/badge/numpy-latest-orange.svg)](https://numpy.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
 
-## ✨ 特色亮点
+---
 
-### 📚 完整的理论到实践
-- **从零实现**：手工实现所有核心算法，深入理解原理
-- **数学严谨**：完整的数学推导，梯度检查误差 < 1e-10
-- **对比验证**：与PyTorch官方实现对比，确保正确性
-- **可视化丰富**：详细的图表和动画，直观理解复杂概念
+## 📖 项目简介
 
-### 🚀 工程级实现
-- **模块化设计**：清晰的代码结构，易于扩展和维护
-- **性能优化**：分布式训练、混合精度、数据管线优化
-- **实战导向**：CIFAR-10竞赛级模型，真实场景应用
-- **完善监控**：训练过程可视化，性能指标实时跟踪
+MyAIStudy是一套完整的AI工程师培训体系，涵盖从编程基础到企业级AI应用开发的全部内容。项目分为**三个版本**，循序渐进，适合不同阶段的学习者：
 
-### 🎯 核心功能模块
+| 版本 | 周期 | 适合人群 | 核心内容 | 完成度 |
+|------|------|----------|----------|------|
+| 🌱 **[入门版](#-入门版第1-12周)** | 12周 | 编程基础，AI零基础 | Python、NumPy、Pandas、Scikit-Learn、PyTorch基础 | ✅ 100% |
+| 🎓 **[进阶版](#-进阶版第13-24周)** | 12周 | 掌握深度学习基础 | 从零实现、LLM架构、优化算法、工程实践 | ✅ 100% |
+| 🚀 **[高级版](#-高级版第25-36周)** | 12周 | 想构建企业级应用 | RAG系统、AI Agent、API服务、科研化思维 | ✅ 100% |
 
-#### 1️⃣ 深度学习基础（从零实现）
-- ✅ **线性代数与自动微分**：矩阵运算、Jacobian、链式法则
-- ✅ **反向传播机制**：手推公式、数值验证、可视化
-- ✅ **优化算法**：SGD/Adam/RMSProp完整实现
-- ✅ **CNN/Transformer**：手写卷积、自注意力机制
+**总计36周，完整覆盖AI工程师技能栈！**
 
-#### 2️⃣ LLM架构原理（LLaMA实现）
-- ✅ **多头自注意力**：完整实现和可视化
-- ✅ **RoPE位置编码**：旋转位置编码详解
-- ✅ **RMSNorm归一化**：层归一化优化版本
-- ✅ **SwiGLU前馈**：激活函数和前馈网络
+---
 
-#### 3️⃣ 深度学习训练系统
-- ✅ **分布式训练**：DDP多GPU并行训练
-- ✅ **混合精度**：FP16加速，性能提升2-3倍
-- ✅ **模型量化**：INT8量化，模型压缩75%
-- ✅ **模型剪枝**：幅度/结构化/全局/迭代剪枝
-- ✅ **数据管线**：LMDB缓存，IO优化3-5倍
-- ✅ **早停机制**：智能监控验证指标，防止过拟合
-- ✅ **检查点管理**：自动保存和管理模型检查点
-
-#### 4️⃣ Prompt Engineering
-- ✅ **自动化调试**：Prompt质量分析和优化
-- ✅ **Few-shot管理**：示例生成和管理工具
-- ✅ **批量测试**：并行测试多个Prompt
-- ✅ **输出评估**：自动化质量评测
-
-#### 5️⃣ 大模型微调（LoRA/QLoRA/PEFT）
-- ✅ **LoRA低秩适配**：只训练0.5-1%参数
-- ✅ **QLoRA量化微调**：4-bit量化，节省75%显存
-- ✅ **PEFT统一接口**：参数高效训练方法
-- ✅ **微型ChatGPT训练**：1B-7B模型微调演示
-- ✅ **显存优化**：个人电脑可微调大模型
-
-#### 6️⃣ 推理优化（Batched Inference / KV Cache）
-- ✅ **KV Cache加速**：自回归生成提速2-10倍
-- ✅ **批量推理**：显著提高吞吐量
-- ✅ **性能监控**：延迟、吞吐量、显存追踪
-- ✅ **生产级部署**：实用的推理优化策略
-- ✅ **基准测试**：不同批次大小性能对比
-
-#### 7️⃣ 数据可视化
-- ✅ **交互式仪表盘**：实时数据探索
-- ✅ **训练监控**：损失曲线、学习率变化
-- ✅ **性能对比**：模型性能可视化对比
-- ✅ **注意力可视化**：Transformer注意力权重
-
-### 💡 适用场景
-
-- 🎓 **深度学习初学者**：系统学习基础理论和实现
-- 👨‍💻 **算法工程师**：快速原型和实验验证
-- 👩‍🏫 **教学演示**：完整的教学案例和可视化
-- 🔬 **研究人员**：模块化代码便于扩展研究
-
-## 📁 项目结构
+## 🎯 完整学习路线图
 
 ```
-MyAIStudy/
-├── run_example.py              # 📌 统一入口（选择入门/进阶版）
-├── run_beginner_examples.py    # 入门版专用入口
-├── run_intermediate_examples.py # 进阶版专用入口
-├── test_run_example.py         # 自动化测试脚本
-│
-├── beginner/                   # 入门版代码（6个模块）
-│   ├── week1_python_basics.py
-│   ├── week2_numpy_basics.py
-│   ├── week3_pandas_analysis.py
-│   ├── week4_matplotlib_viz.py
-│   ├── week5_ml_basics.py      # 机器学习（Week 5-8）
-│   └── week9_dl_pytorch.py     # 深度学习（Week 9-12）
-│
-├── intermediate/               # 进阶版代码（26个模块）
-│   ├── __init__.py
-│   │
-│   # 基础实现
-│   ├── linear_algebra.py       # 线性代数与自动微分
-│   ├── backpropagation.py      # 反向传播详细实现
-│   ├── optimizer_comparison.py # 优化算法对比
-│   ├── cnn_transformer.py      # CNN与Transformer基础
-│   │
-│   # 神经网络组件
-│   ├── layers.py               # 神经网络层
-│   ├── models.py               # 简单网络模型
-│   ├── optimizers.py           # 优化器实现
-│   ├── performance.py          # 性能优化工具
-│   │
-│   # PyTorch训练系统
-│   ├── models_torch.py         # PyTorch模型
-│   ├── training.py             # 训练器和配置（含早停和检查点管理）
-│   ├── checkpointing.py        # 早停和检查点管理（已集成到training.py）
-│   ├── evaluation.py           # 模型评估与压缩效果对比
-│   ├── pruning.py              # 模型剪枝工具
-│   ├── monitoring.py           # 性能监控
-│   ├── data.py                 # 数据加载器
-│   ├── kaggle_data.py          # Kaggle数据管线
-│   ├── kaggle_models.py        # 竞赛级模型
-│   │
-│   # LLM架构与优化
-│   ├── llm_architecture.py     # LLaMA完整实现
-│   ├── llm_visualization.py    # LLM可视化
-│   ├── finetuning.py           # LoRA/QLoRA/PEFT微调 (NEW v2.3)
-│   ├── inference_optimization.py # KV Cache/批量推理 (NEW v2.3)
-│   │
-│   # 可视化与分析
-│   ├── visualization.py        # 数据仪表盘
-│   └── training_monitor.py     # 训练监控
-│
-├── docs/                       # 文档目录
-│   ├── USAGE_GUIDE.md         # 使用指南
-│   ├── OPTIMIZATION_SUMMARY.md # 优化说明
-│   ├── COMPLETION_REPORT.md   # 完成报告
-│   ├── AI学习12周实战计划表（入门版）.md
-│   └── AI学习12周实战计划表（进阶版）.md
-│
-├── LLM_FEATURES_COMPLETION_REPORT.md  # 大模型功能完成报告 (NEW v2.3)
-├── ENTRY_POINTS_UPDATE.md     # 入口文件重组说明
-├── ENTRY_REFACTORING_COMPLETE.md # 重构完成报告
-├── README_BEGINNER.md         # 入门版详细文档
-├── README_Intermediate.md     # 进阶版详细文档
-│
-└── checkpoints/                # 模型检查点（自动创建）
-    ├── basic/
-    ├── kaggle/
-    ├── fp32/
-    └── fp16/
+┌─────────────────────────────────────────────────────────────────┐
+│  🌱 入门版 (第1-12周) - Python与AI基础                           │
+├─────────────────────────────────────────────────────────────────┤
+│  Week 1-4:  Python与数据科学基础 (Python/NumPy/Pandas/Matplotlib)│
+│  Week 5-8:  机器学习基础 (Scikit-Learn/分类/回归/聚类)            │
+│  Week 9-12: 深度学习入门 (PyTorch/CNN/RNN/项目实战)              │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│  🎓 进阶版 (第13-24周) - 深度学习原理与工程实践                   │
+├─────────────────────────────────────────────────────────────────┤
+│  Week 13-16: 数学内核 (线性代数/反向传播/优化器/Transformer)      │
+│  Week 17-20: 工程实践 (训练系统/剪枝/微调/推理优化)               │
+│  Week 21-24: LLM技术 (架构实现/Prompt工程/性能优化)              │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│  🚀 高级版 (第25-36周) - RAG与企业级AI应用                       │
+├─────────────────────────────────────────────────────────────────┤
+│  Week 25-30: RAG系统 (LangChain/向量数据库/Agent/服务化/监控)    │
+│  Week 31-32: 科研工具 (论文管理/实验追踪/GPU优化)                │
+│  Week 33-34: 知识管理 (文档生成/知识图谱/笔记系统)               │
+│  Week 35-36: 职业化 (项目展示/白皮书/面试准备)                   │
+└─────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 🌱 入门版（第1-12周）
+
+### 学习目标
+从零开始，掌握Python编程、数据科学工具、机器学习和深度学习基础
+
+### 核心特色
+- ✅ **系统化基础训练** - Python → NumPy → Pandas → Scikit-Learn → PyTorch
+- ✅ **实战项目驱动** - 学生管理系统、电商分析、房价预测、图像分类
+- ✅ **循序渐进** - 每周一个主题，逐步构建AI知识体系
+- ✅ **工具链完整** - 数据处理、可视化、建模、评估全流程
+
+### 学习路线
+
+**第1-4周：Python与数据科学基础**
+- 🐍 Week 1: Python基础与面向对象编程
+- 🔢 Week 2: NumPy数组操作与矩阵运算
+- 📊 Week 3: Pandas数据处理与分析
+- 📈 Week 4: Matplotlib/Seaborn可视化
+
+**第5-8周：机器学习基础**
+- 🤖 Week 5: 机器学习概念与分类任务（鸢尾花）
+- 📉 Week 6: 线性回归与决策树（房价预测）
+- 🔍 Week 7: 聚类算法（用户分群）
+- ⚙️ Week 8: 模型调优与交叉验证
+
+**第9-12周：深度学习入门**
+- 🧠 Week 9: PyTorch基础与MNIST手写数字识别
+- 🖼️ Week 10: CNN卷积神经网络（CIFAR-10）
+- 📝 Week 11: RNN/LSTM序列模型（文本分类）
+- 🎯 Week 12: 综合项目实战
+
+### 快速开始
+
+```bash
+# 方式1：交互式菜单
+python run_beginner_examples.py
+
+# 方式2：运行某周
+python run_beginner_examples.py week1    # Python基础
+python run_beginner_examples.py week5-8  # 机器学习
+python run_beginner_examples.py week9-12 # 深度学习
+
+# 方式3：运行整个阶段
+python run_beginner_examples.py stage1   # 第1-4周
+python run_beginner_examples.py all      # 全部12周
+```
+
+### 学习成果
+- 📊 12个实战项目
+- 📈 6个数据分析报告
+- 🤖 3个深度学习模型（MLP、CNN、LSTM）
+- 📝 1000+行实战代码
+
+**📖 详细文档：** [README_BEGINNER.md](./README_BEGINNER.md)
+
+---
+
+## 🎓 进阶版（第13-24周）
+
+### 学习目标
+深入理解深度学习数学原理，掌握大模型训练与优化技术
+
+### 核心特色
+- 🧮 **从零实现核心算法** - 手写反向传播、优化器、卷积、注意力机制
+- 🔬 **数学严谨验证** - 梯度检查误差 < 1e-10，与PyTorch对比验证
+- 🚀 **工程级优化** - 分布式训练、混合精度、模型压缩、推理优化
+- 🤖 **LLM全栈技术** - 架构实现、Prompt工程、LoRA微调、KV Cache
+
+### 学习路线
+
+**第13-16周：深度学习数学内核**
+- 📐 Week 13: 线性代数与自动微分
+- 🔄 Week 14: 反向传播机制详解
+- ⚙️ Week 15: 优化算法对比（SGD/Adam/RMSProp）
+- 🧠 Week 16: CNN与Transformer基础
+
+**第17-20周：工程实践**
+- 🎯 Week 17: PyTorch训练系统（分布式/混合精度）
+- 🔪 Week 18: 模型剪枝与压缩
+- 🎨 Week 19: 大模型微调（LoRA/QLoRA/PEFT）
+- ⚡ Week 20: 推理优化（KV Cache/批量推理）
+
+**第21-24周：LLM专项**
+- 🤖 Week 21: LLaMA架构完整实现
+- 💬 Week 22: Prompt Engineering与Few-shot学习
+- 📊 Week 23: 数据可视化与仪表盘
+- 🔧 Week 24: 性能监控与训练管线
+
+### 快速开始
+
+```bash
+# 方式1：交互式菜单
+python run_intermediate_examples.py
+
+# 方式2：功能模块
+python run_intermediate_examples.py fundamentals  # 基础知识演示
+python run_intermediate_examples.py llm           # LLM架构
+python run_intermediate_examples.py train         # 训练系统
+python run_intermediate_examples.py finetuning    # 大模型微调
+python run_intermediate_examples.py inference     # 推理优化
+
+# 方式3：演示模式
+python run_intermediate_examples.py quick         # 快速演示（5分钟）
+python run_intermediate_examples.py all           # 完整演示（30分钟）
+```
+
+### 学习成果
+- 📐 4个数学核心模块（线性代数、反向传播、优化器、Transformer）
+- 🎯 5个工程实践模块（训练系统、剪枝、微调、推理、监控）
+- 🧠 2个LLM专项模块（LLaMA架构、Prompt工程）
+- 📊 13,000+行完整实现代码
+
+**📖 详细文档：** [README_INTERMEDIATE.md](./README_INTERMEDIATE.md)
+
+---
+
+## 🚀 高级版（第25-36周）
+
+### 学习目标
+构建生产级RAG系统、AI Agent、知识管理与项目展示能力
+
+### 核心特色
+- 📚 **RAG完整实现** - 文档处理、向量检索、Pipeline优化、混合检索
+- 🤖 **AI Agent系统** - Memory机制、Tool-Use、Planning、Multi-Agent协作
+- 🌐 **服务化部署** - FastAPI、WebSocket、会话管理、性能优化
+- 📊 **系统监控** - Prometheus、ELK、异常检测、自动恢复
+- 📝 **科研化输出** - 论文管理、实验追踪、知识图谱、技术文档
+- 💼 **职业化准备** - 项目展示、白皮书、面试题库
+
+### 学习路线
+
+**第25-30周：RAG系统与智能体**
+- 📚 Week 25: LangChain框架与RAG原理
+- 🔍 Week 26: 向量数据库索引机制（Flat/IVF/HNSW）
+- 🎯 Week 27: RAG Pipeline优化（Chunking/Re-ranking）
+- 🤖 Week 28: AI Agent架构设计
+- 🌐 Week 29: FastAPI服务化部署
+- 📊 Week 30: 系统监控与异常恢复
+
+**第31-36周：科研化与职业化**
+- 📄 Week 31-32: 论文管理与实验追踪
+- 💰 Week 33: GPU性能优化与成本评估
+- 📝 Week 34-35: 知识管理与文档生成
+- 💼 Week 36: 项目展示与面试准备
+
+### 快速开始
+
+```bash
+# 方式1：交互式菜单
+python run_advanced_examples.py
+
+# 方式2：运行某周（阶段四）
+python run_advanced_examples.py week13      # LangChain与RAG
+python run_advanced_examples.py week14      # 向量数据库
+python run_advanced_examples.py week15-18   # RAG优化/Agent/服务化
+
+# 方式3：运行某周（阶段五）
+python run_advanced_examples.py week19-20   # 论文管理/实验追踪
+python run_advanced_examples.py week21      # GPU优化/成本评估
+python run_advanced_examples.py week22-23   # 知识管理/文档生成
+python run_advanced_examples.py week24      # 项目展示/面试准备
+
+# 方式4：演示模式
+python run_advanced_examples.py quick       # 快速演示（10分钟）
+python run_advanced_examples.py all         # 完整演示（40分钟）
+```
+
+### 学习成果
+- 🔍 6个RAG模块（基础、优化、Agent、服务化、监控）
+- 📚 4个科研工具（论文管理、实验追踪、知识管理、项目展示）
+- 📊 2,800+行高级功能代码
+- 💼 完整的求职作品集
+
+**📖 详细文档：** [README_ADVANCED.md](./README_ADVANCED.md)
+
+---
 
 ## 🚀 快速开始
 
-### 📌 推荐使用方式
+### 统一入口（推荐）
 
-**统一入口（最简单）：**
 ```bash
-# 交互式选择入门版或进阶版
+# 交互式选择版本
 python run_example.py
 
+# 菜单选项：
+# [1] 入门版 - Python与AI基础
+# [2] 进阶版 - 深度学习原理与工程
+# [3] 高级版 - RAG与企业级应用
+# [4] 查看项目信息
+# [5] 退出
+```
+
+### 命令行直接启动
+
+```bash
 # 直接启动入门版
 python run_example.py beginner
 
-# 直接启动进阶版  
+# 直接启动进阶版
 python run_example.py intermediate
+
+# 直接启动高级版
+python run_example.py advanced
 
 # 查看帮助
 python run_example.py --help
@@ -170,354 +266,121 @@ python run_example.py --help
 
 ---
 
-### � 入门版（12周基础实战计划）
+## 📁 项目结构
 
-**适合人群：** 有编程基础，想系统学习AI的初学者
-
-**快速开始：**
-```bash
-# 方式1：交互式菜单
-python run_beginner_examples.py
-
-# 方式2：直接运行某周
-python run_beginner_examples.py week1   # Python基础
-python run_beginner_examples.py week2   # NumPy操作
-python run_beginner_examples.py week3   # Pandas分析
-python run_beginner_examples.py week4   # 可视化
-python run_beginner_examples.py week5   # 机器学习（合并Week 5-8）
-python run_beginner_examples.py week9   # 深度学习（合并Week 9-12）
 ```
-
-**学习路线：**
-- **第1-4周：** Python与数据科学基础
-  - Python语法、NumPy数组、Pandas处理、Matplotlib可视化
-- **第5-8周：** 机器学习基础
-  - Scikit-Learn、分类/回归、聚类、模型调优
-- **第9-12周：** 深度学习入门
-  - PyTorch基础、CNN、RNN/LSTM、综合项目
-
-**详细文档：** [README_BEGINNER.md](./README_BEGINNER.md)
+MyAIStudy/
+├── 📌 统一入口
+│   ├── run_example.py              # 主入口（选择版本）
+│   ├── run_beginner_examples.py    # 入门版专用入口
+│   ├── run_intermediate_examples.py # 进阶版专用入口
+│   └── run_advanced_examples.py    # 高级版专用入口
+│
+├── 🌱 入门版代码 (beginner/)
+│   ├── week1_python_basics.py      # Python基础与OOP
+│   ├── week2_numpy_operations.py   # NumPy数组操作
+│   ├── week3_pandas_analysis.py    # Pandas数据分析
+│   ├── week4_visualization.py      # Matplotlib可视化
+│   ├── week5_8_machine_learning.py # 机器学习（4周合并）
+│   └── week9_12_deep_learning.py   # 深度学习（4周合并）
+│
+├── 🎓 进阶版代码 (intermediate/)
+│   ├── 📐 数学内核
+│   │   ├── linear_algebra.py       # 线性代数与自动微分
+│   │   ├── backpropagation.py      # 反向传播机制
+│   │   ├── optimizer_comparison.py # 优化算法对比
+│   │   └── cnn_transformer.py      # CNN与Transformer
+│   │
+│   ├── 🎯 训练系统
+│   │   ├── models_torch.py         # PyTorch模型
+│   │   ├── training.py             # 训练器（含早停/检查点）
+│   │   ├── pruning.py              # 模型剪枝
+│   │   ├── finetuning.py           # LoRA/QLoRA/PEFT微调
+│   │   └── inference_optimization.py # KV Cache/批量推理
+│   │
+│   └── 🤖 LLM架构
+│       ├── llm_architecture.py     # LLaMA完整实现
+│       └── llm_visualization.py    # LLM可视化
+│
+├── 🚀 高级版代码 (advanced/)
+│   ├── 📚 RAG系统 (Week 13-18)
+│   │   ├── week13_langchain_rag.py
+│   │   ├── week14_vector_database.py
+│   │   └── week15_18_placeholder.py
+│   │
+│   └── 🔬 科研工具 (Week 19-24)
+│       ├── week19_20_research_tools.py
+│       ├── week21_optimization.py
+│       ├── week22_23_knowledge_management.py
+│       └── week24_presentation.py
+│
+├── 📚 文档
+│   ├── README.md                   # 主文档（本文件）
+│   ├── README_BEGINNER.md         # 入门版详细文档
+│   ├── README_INTERMEDIATE.md     # 进阶版详细文档
+│   └── README_ADVANCED.md         # 高级版详细文档
+│
+└── 💾 数据与模型
+    ├── checkpoints/               # 模型检查点
+    └── data/                      # 数据集（自动下载）
+```
 
 ---
 
-### 🎓 进阶版（12周深度提升计划）
+## 🛠️ 环境配置
 
-**适合人群：** 掌握深度学习基础，想深入理解原理的学习者
+### Python版本
+Python 3.8+
 
-**快速开始：**
+### 依赖安装
+
+**入门版依赖：**
 ```bash
-# 交互式菜单（推荐）
-python run_intermediate_examples.py
-
-# 菜单包含11个功能模块，涵盖：
-# • Week 1-4：深度学习数学内核（线性代数、反向传播、优化器、Transformer）
-# • Week 5-8：工程实践（训练系统、模型调优、压缩、分布式）
-# • Week 9-12：LLM专项（架构、Prompt工程、微调、推理优化）
+pip install numpy pandas matplotlib seaborn scikit-learn torch torchvision
 ```
 
-**核心功能：**
-1. **基础知识演示** - 线性代数、反向传播、优化器对比、CNN/Transformer
-2. **LLM架构** - 注意力机制、RoPE位置编码、RMSNorm、完整LLaMA
-3. **性能测试** - NumPy vs Numba、矩阵乘法优化
-4. **数据仪表盘** - 交互式可视化
-5. **深度学习训练** - CIFAR-10、分布式训练、混合精度
-6. **Prompt Engineering** - Few-shot学习、自动化调试
-7. **模型剪枝** - 结构化/非结构化剪枝、稀疏度分析
-8. **LLM微调** ⭐ - LoRA、QLoRA、PEFT方法对比
-9. **推理优化** ⭐ - KV Cache、批量推理、性能基准
-10. **快速演示** - 核心功能精简版（2-5分钟）
-11. **完整演示** - 所有功能完整版
+**进阶版额外依赖：**
+```bash
+pip install numba plotly dash
+```
 
-**详细文档：** [README_Intermediate.md](./README_Intermediate.md)
+**高级版额外依赖（可选）：**
+```bash
+pip install langchain faiss-cpu chromadb fastapi uvicorn redis prometheus-client
+```
+
+**一键安装全部：**
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-### 🔧 开发工具
+## 💡 适用人群
 
-**测试脚本：**
-```bash
-# 集成测试
-python test_integration.py
+| 学习阶段 | 前置要求 | 适合人群 | 学习目标 |
+|---------|---------|---------|---------|
+| 🌱 **入门版** | 基础编程知识 | 编程基础，AI零基础 | 掌握Python与机器学习基础 |
+| 🎓 **进阶版** | 完成入门版或具备深度学习基础 | 想深入理解原理的开发者 | 掌握深度学习数学与工程实践 |
+| 🚀 **高级版** | 完成进阶版或熟悉深度学习 | 想构建企业级AI应用 | 掌握RAG、Agent与系统化思维 |
 
-# 代码覆盖度检查
-python optimize_code.py
+---
 
-# 项目重构工具
-python refactor_project.py --check
-```
+## 🏆 学习成果
 
-**项目信息：**
-```bash
-python run_example.py      # 选择3查看项目信息
-```
+完成全部36周学习后，你将：
 
-## 💡 详细功能说明
+✅ **扎实的理论基础** - 从数学原理到工程实践，系统掌握AI核心技术  
+✅ **丰富的项目经验** - 30+个实战项目，涵盖数据分析、模型训练、系统部署  
+✅ **完整的技能栈** - Python、PyTorch、RAG、Agent、API、监控全覆盖  
+✅ **科研化思维** - 论文复现、实验管理、技术文档、知识沉淀  
+✅ **职业化能力** - 项目展示、技术演讲、面试准备、简历优化
 
-### 1. 🧮 线性代数与自动微分基础
-**文件：`linear_algebra.py`**
-- ✅ 基础矩阵运算（加法、乘法、转置、特征值分解）
-- ✅ 向量运算（点积、叉积、范数、夹角计算）
-- ✅ Jacobian矩阵计算（解析法 + 数值法，误差 < 1e-10）
-- ✅ 链式法则详细推导和验证
-- ✅ 手写线性层（Xavier初始化 + 梯度检查）
-- ✅ 手写ReLU激活函数（含可视化）
-- ✅ 与PyTorch autograd对比验证
-
-### 2. 🔄 反向传播机制详解
-**文件：`backpropagation.py`**
-- ✅ 两层神经网络手工实现
-- ✅ 详细反向传播公式推导
-- ✅ 逐步演示梯度计算过程
-- ✅ 数值方法验证梯度正确性
-- ✅ 与PyTorch autograd完整对比
-- ✅ 训练损失曲线可视化
-- ✅ 参数更新过程监控
-
-### 3. ⚙️ 优化算法数学原理
-**文件：`optimizer_comparison.py`**
-- ✅ SGD（含动量）详细实现
-- ✅ Adam优化器完整数学推导
-- ✅ RMSProp自适应学习率
-- ✅ MNIST数据集收敛曲线对比
-- ✅ 优化轨迹2D可视化
-- ✅ 学习率影响分析
-- ✅ 性能基准测试
-
-### 4. 🧠 卷积与Transformer基础
-**文件：`cnn_transformer.py`**
-- ✅ 手写卷积层（im2col实现）
-- ✅ 最大池化层实现
-- ✅ 自注意力机制详细推导
-- ✅ 多头注意力完整实现
-- ✅ 矩阵乘法几何意义演示
-- ✅ CNN vs Transformer特点对比
-- ✅ 计算复杂度分析
-- ✅ 注意力权重可视化
-
-### 5. 🚀 LLM架构原理
-**文件：`llm_architecture.py`, `llm_visualization.py`**
-- ✅ 多头自注意力机制
-- ✅ RoPE旋转位置编码
-- ✅ RMSNorm层归一化
-- ✅ SwiGLU前馈网络
-- ✅ 残差连接
-- ✅ LLaMA完整架构
-- ✅ 文本生成功能
-- ✅ 架构可视化图表
-
-### 6. 🎯 深度学习训练系统
-**文件：`training.py`, `models_torch.py`**
-- ✅ PyTorch模型模块化设计
-- ✅ Kaggle竞赛级模型训练
-- ✅ 分布式数据并行 (DDP)
-- ✅ 混合精度训练 (FP16)
-- ✅ 模型量化和压缩
-- ✅ 学习率调度、早停、BatchNorm、Dropout
-- ✅ 性能监控和对比
-- ✅ CIFAR-10实战（Top-1准确率 > 90%）
-
-### 7. 📊 数据管线优化
-**文件：`data.py`, `kaggle_data.py`**
-- ✅ LMDB数据缓存优化
-- ✅ Albumentations数据增强
-- ✅ 分布式DataLoader
-- ✅ 内存映射文件IO
-- ✅ 多进程数据加载
-- ✅ IO性能提升3-5倍
-
-### 8. 🧠 Prompt Engineering 与 Few-shot 技术
-**集成在 `run_example.py` 中**
-- ✅ 自动化 Prompt 调试与质量分析
-- ✅ Few-shot 示例生成与管理  
-- ✅ GPT 输出质量提升工具
-- ✅ 批量Prompt测试与输出收集
-- ✅ 自动化Prompt优化与输出评测
-- ✅ 模拟测试环境（无需实际API调用）
-
-### 9. 🔪 模型剪枝与压缩
-**文件：`pruning.py`, `evaluation.py`**
-- ✅ 幅度剪枝（Magnitude Pruning）
-- ✅ 结构化剪枝（Structured Pruning）
-- ✅ 全局剪枝（Global Pruning）
-- ✅ 迭代剪枝（Iterative Pruning）
-- ✅ 稀疏度统计与分析
-- ✅ 模型大小对比（参数减少、内存占用）
-- ✅ 推理速度测试（加速比分析）
-- ✅ 精度保持验证（Top-1 Accuracy ±1%）
-
-### 10. 🎨 大模型微调（LoRA/QLoRA/PEFT）🆕
-**文件：`finetuning.py`**
-- ✅ **LoRA实现**：低秩适配矩阵 W' = W + BA·(alpha/rank)
-- ✅ **QLoRA实现**：4-bit量化 + LoRA，节省75%显存
-- ✅ **PEFT统一接口**：自动替换目标模块（q_proj, k_proj, v_proj, o_proj）
-- ✅ **SimpleLLM**：6层Transformer演示模型（vocab=50K）
-- ✅ **参数统计**：可训练参数占比0.5-1%
-- ✅ **三个完整演示**：
-  - demonstrate_lora_finetuning()：完整训练流程
-  - demonstrate_qlora_comparison()：QLoRA vs LoRA对比
-  - demonstrate_peft_methods()：不同rank配置对比
-
-### 11. ⚡ 推理优化（Batched Inference / KV Cache）🆕
-**文件：`inference_optimization.py`**
-- ✅ **KVCache类**：缓存Key-Value，避免重复计算
-- ✅ **AttentionWithKVCache**：支持增量更新的注意力层
-- ✅ **BatchedInferenceEngine**：批量推理引擎
-- ✅ **InferenceMetrics**：性能指标收集（延迟、吞吐量、显存）
-- ✅ **加速效果**：2-10倍生成速度提升
-- ✅ **三个完整演示**：
-  - demonstrate_kv_cache()：KV Cache原理
-  - demonstrate_batched_inference()：批量推理基准测试
-  - demonstrate_cache_vs_no_cache()：性能对比
-
-## 🔬 代码示例
-
-### Python API 使用
-
-```python
-# 1. Prompt Engineering
-from run_Intermediate_example import PromptDebugger, FewShotManager
-
-# Few-shot示例管理
-fewshot = FewShotManager()
-fewshot.add_example("Q: What is 2+2?\nA: 4")
-fewshot.auto_generate_examples("Math problems", n=3)
-
-# Prompt调试
-debugger = PromptDebugger()
-result = debugger.test_prompt("Calculate 7+6", examples=fewshot.get_examples())
-optimized = debugger.optimize_prompt("Calculate 7+6", target="13")
-
-# 2. 简单神经网络
-from intermediate.models import SimpleNN
-from intermediate.optimizers import Adam
-import numpy as np
-
-model = SimpleNN([784, 128, 64, 10])
-optimizer = Adam(lr=0.001)
-
-# 训练
-X = np.random.randn(784, 100)
-Y = np.eye(10)[:, np.random.randint(0, 10, 100)]
-loss = model.train_step(X, Y, optimizer)
-
-# 3. PyTorch训练（含早停和检查点管理）
-from intermediate.training import Trainer, TrainerConfig
-from intermediate.models_torch import CIFAR10Net
-import torch
-
-config = TrainerConfig(
-    max_epochs=100,
-    batch_size=64,
-    learning_rate=0.001,
-    mixed_precision=True,
-    use_early_stopping=True,  # 启用早停
-    patience=10,              # 早停容忍度
-    checkpoint_mode='best'    # 只保留最佳检查点
-)
-
-model = CIFAR10Net()
-trainer = Trainer(model, config, train_loader, val_loader, save_dir='checkpoints')
-results = trainer.train()
-
-# 加载最佳模型
-best_checkpoint = trainer.checkpoint_manager.load_best(model)
-print(f"最佳模型: epoch={best_checkpoint['epoch']}, acc={best_checkpoint['score']:.2f}%")
-
-# 4. 模型剪枝与压缩
-from intermediate.pruning import ModelPruner
-from intermediate.evaluation import ModelEvaluator
-
-# 创建剪枝器
-model = CIFAR10Net()
-pruner = ModelPruner(model)
-
-# 执行幅度剪枝（30%）
-pruner.magnitude_pruning(amount=0.3)
-
-# 查看稀疏度
-pruner.print_sparsity()
-
-# 比较压缩效果
-pruner.compare_with_original()
-
-# 评估剪枝后的精度
-evaluator = ModelEvaluator(device='cuda')
-results = evaluator.evaluate_compression(
-    original_model=pruner.original_model,
-    compressed_model=model,
-    data_loader=test_loader,
-    compression_type="pruning"
-)
-print(f"精度变化: {results['accuracy_diff']:+.2f}%")
-print(f"模型大小减少: {results['size_reduction_percent']:.2f}%")
-print(f"推理加速: {results['speedup']:.2f}x")
-
-# 5. 大模型微调（LoRA）🆕
-from intermediate.finetuning import PEFTModel, SimpleLLM
-import torch
-
-# 创建基础模型
-model = SimpleLLM(vocab_size=50000, d_model=512, n_layers=6)
-
-# 应用LoRA（只训练0.5-1%参数）
-peft_model = PEFTModel(
-    model,
-    method='lora',
-    rank=8,           # 低秩维度
-    alpha=16,         # 缩放因子
-    target_modules=['q_proj', 'k_proj', 'v_proj', 'o_proj']
-)
-
-# 查看参数统计
-trainable = sum(p.numel() for p in peft_model.parameters() if p.requires_grad)
-total = sum(p.numel() for p in peft_model.parameters())
-print(f"可训练参数: {trainable:,} ({trainable/total*100:.2f}%)")
-
-# 训练（只更新LoRA参数）
-optimizer = torch.optim.AdamW(peft_model.parameters(), lr=1e-4)
-for step, (input_ids, labels) in enumerate(train_loader):
-    logits = peft_model(input_ids)
-    loss = F.cross_entropy(logits.view(-1, vocab_size), labels.view(-1))
-    loss.backward()
-    optimizer.step()
-    optimizer.zero_grad()
-
-# 6. 推理优化（KV Cache）🆕
-from intermediate.inference_optimization import BatchedInferenceEngine
-
-# 创建推理引擎
-engine = BatchedInferenceEngine(
-    model=your_model,
-    max_batch_size=32,
-    max_seq_len=512,
-    device='cuda'
-)
-
-# 生成文本（自动使用KV Cache）
-input_ids = torch.randint(0, vocab_size, (batch_size, prompt_len))
-generated, metrics = engine.generate(
-    input_ids,
-    max_new_tokens=50,
-    use_cache=True,      # 启用KV Cache（2-10x加速）
-    temperature=1.0,
-    top_k=50
-)
-
-print(f"延迟: {metrics.latency_ms:.2f} ms")
-print(f"吞吐量: {metrics.throughput_tokens_per_sec:.2f} tokens/s")
-print(f"显存使用: {metrics.memory_mb:.2f} MB")
-
-# 批量推理基准测试
-results = engine.benchmark_batch_sizes(
-    vocab_size=10000,
-    prompt_len=32,
-    max_new_tokens=50,
-    batch_sizes=[1, 2, 4, 8, 16],
-    use_cache=True
-)
-```
+---
 
 ## 📊 性能指标
+
+### 进阶版性能指标
 
 | 功能模块 | 性能提升 | 验证指标 |
 |---------|---------|---------|
@@ -525,28 +388,67 @@ results = engine.benchmark_batch_sizes(
 | 混合精度训练 | 训练速度提升2-3倍 | FP16 vs FP32 |
 | 模型量化 | 模型大小减少75% | 精度损失 < ±1% |
 | 模型剪枝 | 参数减少30-50% | 精度损失 < ±1% |
-| LoRA微调 🆕 | 可训练参数减少99% | 只训练0.5-1%参数 |
-| QLoRA微调 🆕 | 显存节省75% | 4-bit量化 + LoRA |
-| KV Cache 🆕 | 生成速度提升2-10倍 | 延迟降低 |
-| 批量推理 🆕 | 吞吐量提升3-8倍 | batch_size=4-16 |
-| 梯度检查 | 数值误差 < 1e-10 | 解析vs数值梯度 |
-| CIFAR-10训练 | Top-1准确率 > 90% | 验证集评估 |
-| 分布式训练 | 线性扩展效率 | 多GPU性能 |
-| Prompt调试 | 输出质量提升 | 自动化评测 |
+| LoRA微调 | 可训练参数减少99% | 只训练0.5-1%参数 |
+| KV Cache | 生成速度提升2-10倍 | 延迟降低 |
+| 批量推理 | 吞吐量提升3-8倍 | batch_size=4-16 |
 
-## 🎯 验证结果
+### 高级版性能指标
 
-- ✅ **数值精度**：所有梯度检查误差 < 1e-10
-- ✅ **PyTorch一致性**：与官方实现参数差异 < 1e-8
-- ✅ **性能优化**：训练速度提升2-3倍，IO优化3-5倍
-- ✅ **模型精度**：CIFAR-10准确率 > 90%，量化精度损失 < 1%
-- ✅ **可视化完整性**：包含所有关键组件的详细图表
-- ✅ **统一入口**：所有功能通过run_example.py统一调用，包含Prompt Engineering集成
+| 功能 | 指标 | 说明 |
+|------|------|------|
+| 向量检索（IVF） | 10-20x加速 | 相比Flat Index |
+| RAG问答 | Top-3准确率 | 相似度检索 |
+| 推荐维度 | 384-768 | 性能与精度平衡 |
 
-## 📚 文档资源
+---
 
-- 📖 **[使用指南](docs/USAGE_GUIDE.md)** - 详细的使用说明和常见问题
-- 📊 **[学习计划](docs/AI学习10周实战计划表（进阶版）.md)** - 深度学习与AI系统设计的系统化学习路径
+## 📚 推荐学习路径
+
+### 零基础学习者
+1. 从入门版第1周开始
+2. 按周学习，完成所有实践项目
+3. 每周末总结复盘
+4. 12周后评估，决定是否进入进阶版
+
+### 有Python基础
+1. 快速浏览入门版Week 1-4
+2. 重点学习Week 5-12（ML/DL）
+3. 直接进入进阶版学习
+
+### 有深度学习基础
+1. 跳过入门版
+2. 从进阶版Week 13开始
+3. 重点关注从零实现部分
+4. 完成后进入高级版
+
+### 想做企业级应用
+1. 复习进阶版核心模块
+2. 直接学习高级版
+3. 重点关注RAG和Agent
+4. 完成项目展示和面试准备
+
+---
+
+## 📝 学习建议
+
+### 时间安排
+- **每周投入**：10-15小时（约1.5-2小时/天）
+- **总计周期**：36周（9个月）
+- **建议节奏**：工作日1.5小时，周末5小时
+
+### 学习方法
+1. **动手优先** - 每个知识点都要写代码验证
+2. **记录笔记** - 记录"学到的知识点 + 遇到的坑 + 解决方式"
+3. **对比学习** - 不同算法对比、性能对比
+4. **可视化进度** - 用Excel或Notion记录学习进度
+
+### 调试技巧
+- 使用 `print()` 查看中间结果
+- 使用 `shape` 和 `dtype` 检查张量维度
+- 使用断点调试 (VSCode Debugger)
+- 查看官方文档和Stack Overflow
+
+---
 
 ## 🤝 贡献指南
 
@@ -558,67 +460,70 @@ results = engine.benchmark_batch_sizes(
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 开启 Pull Request
 
+---
+
 ## 📄 许可证
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
 
+---
+
 ## 🙏 致谢
 
 - PyTorch团队提供的优秀深度学习框架
+- LangChain社区的RAG技术贡献
 - 开源社区的宝贵贡献和支持
+
+---
 
 ## 📮 联系方式
 
 - 项目主页：[GitHub Repository](https://github.com/robert0921/MyAIStudy)
 - 问题反馈：[Issues](https://github.com/robert0921/MyAIStudy/issues)
 
+---
+
 ## 📈 版本历史
 
-### v2.3 (2025-11-06) 🆕
-- ✅ **大模型微调功能**：新增 `finetuning.py` 模块（600+ 行）
-- ✅ **LoRA实现**：低秩适配层，只训练0.5-1%参数
-- ✅ **QLoRA实现**：4-bit量化 + LoRA，显存节省75%
-- ✅ **PEFT统一接口**：参数高效训练方法统一管理
-- ✅ **推理优化功能**：新增 `inference_optimization.py` 模块（450+ 行）
-- ✅ **KV Cache实现**：缓存Key-Value，生成加速2-10倍
-- ✅ **批量推理引擎**：动态批处理，吞吐量提升3-8倍
-- ✅ **性能基准测试**：完整的延迟、吞吐量、显存使用分析
-- ✅ **交互式演示**：6个完整演示函数，可独立运行
-- ✅ **命令行集成**：`python run_example.py finetuning/inference`
-- ✅ **文档完善**：详细的实现报告和快速开始指南
+### v3.0 (2025-11-13) 🎉
+- ✅ **完成高级版Week 19-24**：科研化输出与职业化准备
+- ✅ **新增论文管理工具**：Paper/PaperLibrary/Experiment/ExperimentTracker
+- ✅ **新增GPU优化模块**：成本计算、性能分析、模型压缩
+- ✅ **新增知识管理系统**：文档生成、知识图谱、笔记管理
+- ✅ **新增职业化模块**：项目展示、白皮书、面试题库
+- ✅ **文档全面更新**：README整合三个版本，各版本独立详细文档
+- ✅ **36周完整学习路线**：入门→进阶→高级全覆盖
+
+### v2.3 (2025-11-06)
+- ✅ **进阶版大模型微调**：LoRA/QLoRA/PEFT实现
+- ✅ **进阶版推理优化**：KV Cache/批量推理
+- ✅ **性能基准测试**：完整的延迟、吞吐量、显存分析
 
 ### v2.2 (2025-11-05)
-- ✅ **模型剪枝功能**：新增 `pruning.py` 模块，支持4种剪枝策略
-- ✅ **幅度剪枝**：基于权重绝对值的非结构化剪枝
-- ✅ **结构化剪枝**：移除整个通道或滤波器，真正减少计算量
-- ✅ **全局剪枝**：在所有层中统一选择要剪枝的权重
-- ✅ **迭代剪枝**：支持逐步提高剪枝比例的策略
-- ✅ **评估增强**：evaluation.py 新增压缩效果对比功能
-- ✅ **性能分析**：完整的精度、模型大小、推理速度对比
-- ✅ **文档完善**：README 添加剪枝功能详细说明和示例
+- ✅ **进阶版模型剪枝**：4种剪枝策略（幅度/结构化/全局/迭代）
+- ✅ **压缩效果评估**：精度、模型大小、推理速度对比
 
 ### v2.1 (2025-11-04)
-- ✅ **增强训练系统**：集成 `checkpointing.py` 功能
-- ✅ **智能早停**：EarlyStopping 类，防止过拟合
-- ✅ **检查点管理**：CheckpointManager 类，自动管理模型检查点
-- ✅ **依赖优化**：合并 requirements.txt，统一依赖管理
-- ✅ **文档更新**：完善 README，添加新功能说明
+- ✅ **智能早停**：EarlyStopping类
+- ✅ **检查点管理**：CheckpointManager类
 
 ### v2.0 (2025-11-04)
-- ✅ **代码整合**：统一入口，集成所有功能
-- ✅ **模块化依赖**：可选依赖管理，部分功能独立运行
-- ✅ **增强训练**：4种训练模式，灵活配置
-- ✅ **完善文档**：详细使用指南和API文档
-- ✅ **自动化测试**：完整的测试覆盖
+- ✅ **统一入口**：run_example.py整合三个版本
+- ✅ **模块化依赖**：可选依赖管理
 
 ### v1.0 (2025-10)
-- ✅ 基础功能实现
-- ✅ LLM架构演示
-- ✅ 深度学习训练系统
+- ✅ **入门版完成**：12周Python与AI基础
+- ✅ **进阶版基础**：深度学习原理实现
+- ✅ **高级版Week 13-14**：RAG基础
 
 ---
 
 <div align="center">
-  <p>⭐ 如果这个项目对您有帮助，请给它一个星标！</p>
-  <p>Made with ❤️ by robert0921</p>
+
+⭐ **如果这个项目对您有帮助，请给它一个星标！** ⭐
+
+**Made with ❤️ by [robert0921](https://github.com/robert0921)**
+
+[⬆️ 返回顶部](#-myaistudy---ai工程师全栈培训系统-v30)
+
 </div>
