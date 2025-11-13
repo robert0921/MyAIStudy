@@ -80,20 +80,10 @@
 
 ```
 MyAIStudy/
-├── run_example.py              # 📌 统一入口（选择入门/进阶版）
-├── run_beginner_examples.py    # 入门版专用入口
-├── run_intermediate_examples.py # 进阶版专用入口
+├── run_intermediate_example.py              # 统一入口，所有功能的主程序
 ├── test_run_example.py         # 自动化测试脚本
 │
-├── beginner/                   # 入门版代码（6个模块）
-│   ├── week1_python_basics.py
-│   ├── week2_numpy_basics.py
-│   ├── week3_pandas_analysis.py
-│   ├── week4_matplotlib_viz.py
-│   ├── week5_ml_basics.py      # 机器学习（Week 5-8）
-│   └── week9_dl_pytorch.py     # 深度学习（Week 9-12）
-│
-├── intermediate/               # 进阶版代码（26个模块）
+├── intermediate/               # 核心模块目录（重命名自 ml_core）
 │   ├── __init__.py
 │   │
 │   # 基础实现
@@ -132,15 +122,9 @@ MyAIStudy/
 ├── docs/                       # 文档目录
 │   ├── USAGE_GUIDE.md         # 使用指南
 │   ├── OPTIMIZATION_SUMMARY.md # 优化说明
-│   ├── COMPLETION_REPORT.md   # 完成报告
-│   ├── AI学习12周实战计划表（入门版）.md
-│   └── AI学习12周实战计划表（进阶版）.md
+│   └── COMPLETION_REPORT.md   # 完成报告
 │
 ├── LLM_FEATURES_COMPLETION_REPORT.md  # 大模型功能完成报告 (NEW v2.3)
-├── ENTRY_POINTS_UPDATE.md     # 入口文件重组说明
-├── ENTRY_REFACTORING_COMPLETE.md # 重构完成报告
-├── README_BEGINNER.md         # 入门版详细文档
-├── README_Intermediate.md     # 进阶版详细文档
 │
 └── checkpoints/                # 模型检查点（自动创建）
     ├── basic/
@@ -149,107 +133,81 @@ MyAIStudy/
     └── fp16/
 ```
 
-## 🚀 快速开始
+### 运行方式
 
-### 📌 推荐使用方式
-
-**统一入口（最简单）：**
+#### 🎮 交互模式（推荐新手）
 ```bash
-# 交互式选择入门版或进阶版
-python run_example.py
-
-# 直接启动入门版
-python run_example.py beginner
-
-# 直接启动进阶版  
-python run_example.py intermediate
-
-# 查看帮助
-python run_example.py --help
+python run_intermediate_example.py
 ```
+显示菜单，选择要运行的功能模块。
 
----
-
-### � 入门版（12周基础实战计划）
-
-**适合人群：** 有编程基础，想系统学习AI的初学者
-
-**快速开始：**
+#### ⚡ 快速演示（5-10分钟）
 ```bash
-# 方式1：交互式菜单
-python run_beginner_examples.py
-
-# 方式2：直接运行某周
-python run_beginner_examples.py week1   # Python基础
-python run_beginner_examples.py week2   # NumPy操作
-python run_beginner_examples.py week3   # Pandas分析
-python run_beginner_examples.py week4   # 可视化
-python run_beginner_examples.py week5   # 机器学习（合并Week 5-8）
-python run_beginner_examples.py week9   # 深度学习（合并Week 9-12）
+python run_intermediate_example.py quick
 ```
+运行核心功能演示：LLM架构、SNN性能测试、Prompt Engineering。
 
-**学习路线：**
-- **第1-4周：** Python与数据科学基础
-  - Python语法、NumPy数组、Pandas处理、Matplotlib可视化
-- **第5-8周：** 机器学习基础
-  - Scikit-Learn、分类/回归、聚类、模型调优
-- **第9-12周：** 深度学习入门
-  - PyTorch基础、CNN、RNN/LSTM、综合项目
+#### 📖 详细功能
 
-**详细文档：** [README_BEGINNER.md](./README_BEGINNER.md)
-
----
-
-### 🎓 进阶版（12周深度提升计划）
-
-**适合人群：** 掌握深度学习基础，想深入理解原理的学习者
-
-**快速开始：**
+**基础知识演示**（约15分钟）
 ```bash
-# 交互式菜单（推荐）
-python run_intermediate_examples.py
-
-# 菜单包含11个功能模块，涵盖：
-# • Week 1-4：深度学习数学内核（线性代数、反向传播、优化器、Transformer）
-# • Week 5-8：工程实践（训练系统、模型调优、压缩、分布式）
-# • Week 9-12：LLM专项（架构、Prompt工程、微调、推理优化）
+python run_intermediate_example.py fundamentals
 ```
+线性代数、反向传播、优化器、CNN/Transformer基础实现。
 
-**核心功能：**
-1. **基础知识演示** - 线性代数、反向传播、优化器对比、CNN/Transformer
-2. **LLM架构** - 注意力机制、RoPE位置编码、RMSNorm、完整LLaMA
-3. **性能测试** - NumPy vs Numba、矩阵乘法优化
-4. **数据仪表盘** - 交互式可视化
-5. **深度学习训练** - CIFAR-10、分布式训练、混合精度
-6. **Prompt Engineering** - Few-shot学习、自动化调试
-7. **模型剪枝** - 结构化/非结构化剪枝、稀疏度分析
-8. **LLM微调** ⭐ - LoRA、QLoRA、PEFT方法对比
-9. **推理优化** ⭐ - KV Cache、批量推理、性能基准
-10. **快速演示** - 核心功能精简版（2-5分钟）
-11. **完整演示** - 所有功能完整版
-
-**详细文档：** [README_Intermediate.md](./README_Intermediate.md)
-
----
-
-### 🔧 开发工具
-
-**测试脚本：**
+**LLM架构演示**（约5分钟）
 ```bash
-# 集成测试
-python test_integration.py
-
-# 代码覆盖度检查
-python optimize_code.py
-
-# 项目重构工具
-python refactor_project.py --check
+python run_intermediate_example.py llm
 ```
+LLaMA模型结构、注意力机制、位置编码、文本生成。
 
-**项目信息：**
+**性能测试**（约3分钟）
 ```bash
-python run_example.py      # 选择3查看项目信息
+python run_intermediate_example.py snn
 ```
+矩阵乘法性能、NumPy vs Numba对比、神经网络训练。
+
+**数据仪表盘**（持续运行）
+```bash
+python run_intermediate_example.py dashboard
+```
+交互式数据可视化，浏览器自动打开，Ctrl+C停止。
+
+**深度学习训练**（5分钟-2小时）
+```bash
+python run_example.py train
+```
+4种训练模式：单GPU快速训练、Kaggle竞赛模型、FP32/FP16对比、完整流程。
+
+**Prompt Engineering**（约2分钟）
+```bash
+python run_example.py prompt
+```
+Few-shot示例管理、Prompt调试优化、批量测试。
+
+**模型剪枝与压缩**（约5分钟）
+```bash
+python run_example.py pruning
+```
+幅度剪枝、结构化剪枝、全局剪枝、迭代剪枝、稀疏度分析。
+
+**大模型微调**（约5-10分钟）🆕
+```bash
+python run_example.py finetuning
+```
+LoRA低秩适配、QLoRA量化微调、PEFT方法对比、参数效率分析。
+
+**推理优化**（约5分钟）🆕
+```bash
+python run_example.py inference
+```
+KV Cache加速演示、批量推理优化、性能基准测试、显存使用分析。
+
+**查看帮助**
+```bash
+python run_example.py help
+```
+显示所有可用命令和使用说明。
 
 ## 💡 详细功能说明
 
