@@ -30,6 +30,8 @@ def week5_classification():
     y_pred = lr_model.predict(X_test_scaled)
     accuracy = accuracy_score(y_test, y_pred)
     print(f"  准确率: {accuracy:.4f}")
+    print("  分类报告:")
+    print(classification_report(y_test, y_pred, target_names=load_iris().target_names))
     return lr_model
 
 
@@ -50,6 +52,16 @@ def week6_regression():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     lr = LinearRegression()
     lr.fit(X_train, y_train)
+
+    # 在测试集上评估并打印结果
+    y_pred = lr.predict(X_test)
+    from sklearn.metrics import mean_squared_error
+    mse = mean_squared_error(y_test, y_pred)
+    r2 = lr.score(X_test, y_test)
+    print(f"  回归评估 - R^2: {r2:.4f}, MSE: {mse:.2f}")
+    print("  示例真实 vs 预测:")
+    for real, pred in list(zip(y_test[:5], y_pred[:5])):
+        print(f"    真实: {real:.2f} -> 预测: {pred:.2f}")
     return lr
 
 
@@ -63,6 +75,13 @@ def week7_clustering():
     X, y_true = make_blobs(n_samples=n_samples, centers=3, n_features=2, random_state=42)
     kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
     y_kmeans = kmeans.fit_predict(X)
+    # 打印每个簇的样本数量和簇心
+    unique, counts = np.unique(y_kmeans, return_counts=True)
+    print("  簇样本数:")
+    for u, c in zip(unique, counts):
+        print(f"    簇 {u}: {c} 个样本")
+    print("  聚类中心:")
+    print(kmeans.cluster_centers_)
     return kmeans
 
 
@@ -75,11 +94,30 @@ def week8_model_tuning():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     rf_baseline = RandomForestClassifier(random_state=42)
     rf_baseline.fit(X_train, y_train)
+    y_pred = rf_baseline.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
+    print(f"  随机森林基线准确率: {acc:.4f}")
+    print("  分类报告:")
+    print(classification_report(y_test, y_pred))
     return rf_baseline
 
 
 if __name__ == "__main__":
-    week5_classification()
-    week6_regression()
-    week7_clustering()
-    week8_model_tuning()
+    clf = week5_classification()
+    print(f"[Main] week5 返回模型: {type(clf).__name__}\n")
+
+    reg = week6_regression()
+    try:
+        coef = getattr(reg, 'coef_', None)
+        if coef is not None:
+            print(f"[Main] week6 返回模型: {type(reg).__name__}, coef: {np.round(coef, 2)}\n")
+        else:
+            print(f"[Main] week6 返回模型: {type(reg).__name__}\n")
+    except Exception:
+        print(f"[Main] week6 返回模型: {type(reg).__name__}\n")
+
+    kmeans = week7_clustering()
+    print(f"[Main] week7 返回模型: {type(kmeans).__name__}\n")
+
+    rf = week8_model_tuning()
+    print(f"[Main] week8 返回模型: {type(rf).__name__}\n")
