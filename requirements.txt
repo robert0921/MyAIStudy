@@ -75,6 +75,26 @@ ipython>=7.0.0         # 交互式 Python shell（可选）
 
 
 # ==========================================
+# 高级版额外依赖（可选）
+# ------------------------------------------
+# RAG / 向量数据库 / 服务化 / 知识管理 / 可视化 等高级功能所需的可选包
+# 按需安装：部分包（如 faiss-gpu）依赖特定平台与 CUDA 版本，请根据环境选择
+langchain>=0.0.200           # LangChain 框架（RAG 管道）
+faiss-cpu>=1.7.2             # FAISS（CPU版本），可选：faiss-gpu 根据 CUDA 安装
+chromadb>=0.3.25             # 向量数据库（Chromadb）
+fastapi>=0.95.0              # Web 框架（生产服务化）
+uvicorn[standard]>=0.20.0    # ASGI 服务器（推荐带 standard 选项）
+redis>=4.5.0                 # Redis 客户端（会话/缓存）
+prometheus-client>=0.14.1    # Prometheus 指标收集
+sentence-transformers>=2.2.2 # Embedding 模型（常用 sentence-transformers）
+transformers>=4.35.0         # Transformers（如需加载预训练模型/Tokenizer）
+networkx>=3.1                # 知识图谱构建与分析
+pyvis>=0.2.1                 # 图形化可视化（浏览器交互式网络图）
+bibtexparser>=1.2.0          # BibTeX 解析/导出（论文管理）
+psutil>=5.9.0                # 系统/进程信息（性能分析/资源监控）
+python-dotenv>=1.0.0         # 环境变量管理（.env 支持）
+
+# ==========================================
 # 安装指南（示例命令）
 # ==========================================
 # 1) 最小安装（仅演示与基础）
