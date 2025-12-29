@@ -1,15 +1,17 @@
 """
 MyAIStudy 项目统一入口
-选择运行入门版或进阶版学习系统
+选择运行入门版、进阶版或高级版学习系统
 
 项目结构：
-- 入门版（12周）：Python基础 → 数据科学 → 机器学习 → 深度学习入门
-- 进阶版（12周）：深度学习理论 → 工程实践 → LLM专项训练
+- 入门版（第1-12周）：Python基础 → 数据科学 → 机器学习 → 深度学习入门
+- 进阶版（第1-12周）：深度学习理论 → 工程实践 → LLM专项训练
+- 高级版（第13-18周）：LangChain/RAG → 向量数据库 → AI Agent → 服务化部署 🆕
 
 使用方法：
     python run_example.py              # 交互式选择
     python run_example.py beginner     # 直接启动入门版
     python run_example.py intermediate # 直接启动进阶版
+    python run_example.py advanced     # 直接启动高级版
     python run_example.py --help       # 查看帮助
 """
 
@@ -55,9 +57,17 @@ def print_menu():
     
     适合人群：掌握深度学习基础，想深入理解原理的学习者
     输出成果：手写反向传播、模型压缩、LoRA微调、推理优化
+
+【3】高级版 - RAG与智能体系统 (第13-18周) 🆕
+    ├─ 第13-14周：LangChain与向量数据库
+    ├─ 第15-16周：RAG优化与AI Agent
+    └─ 第17-18周：服务化部署与系统监控
     
-【3】查看项目信息
-【4】退出
+    适合人群：完成进阶版，想构建企业级AI应用的学习者
+    输出成果：知识库问答系统、AI Agent、生产级API
+    
+【4】查看项目信息
+【5】退出
 
 ═══════════════════════════════════════════════════════════════════════
     """
@@ -155,6 +165,31 @@ def run_intermediate():
         return False
 
 
+def run_advanced():
+    """运行高级版"""
+    print("\n🚀 启动高级版学习系统...")
+    print("═══════════════════════════════════════════════════════════════════════")
+    
+    advanced_script = PROJECT_ROOT / "run_advanced_examples.py"
+    if not advanced_script.exists():
+        print("❌ 错误：找不到 run_advanced_examples.py")
+        print(f"   请确保文件存在于: {advanced_script}")
+        return False
+    
+    # 使用subprocess运行
+    try:
+        result = subprocess.run(
+            [sys.executable, str(advanced_script)],
+            cwd=str(PROJECT_ROOT)
+        )
+        return result.returncode == 0
+    except Exception as e:
+        print(f"❌ 运行高级版时出错: {e}")
+        print("\n💡 提示：你也可以直接运行:")
+        print(f"   python run_advanced_examples.py")
+        return False
+
+
 def main():
     """主函数"""
     # 检查命令行参数
@@ -175,12 +210,18 @@ def main():
             run_intermediate()
             return
         
+        elif arg in ['advanced', 'a', 'rag', '3']:
+            print_banner()
+            run_advanced()
+            return
+        
         else:
             print(f"❌ 未知参数: {arg}")
             print("\n使用方法:")
             print("  python run_example.py              # 交互式选择")
             print("  python run_example.py beginner     # 直接启动入门版")
             print("  python run_example.py intermediate # 直接启动进阶版")
+            print("  python run_example.py advanced     # 直接启动高级版")
             print("  python run_example.py --help       # 查看帮助")
             return
     
@@ -211,18 +252,25 @@ def main():
             print("\n" * 2)
         
         elif choice == '3':
-            show_project_info()
+            success = run_advanced()
+            if success:
+                print("\n✅ 高级版运行完成")
             input("\n按Enter键返回主菜单...")
             print("\n" * 2)
         
         elif choice == '4':
+            show_project_info()
+            input("\n按Enter键返回主菜单...")
+            print("\n" * 2)
+        
+        elif choice == '5':
             print("\n👋 感谢使用MyAIStudy学习系统！")
             print("   继续努力，成为AI专家！🚀\n")
             break
         
         else:
             print(f"\n❌ 无效选择: {choice}")
-            print("   请输入1-4之间的数字\n")
+            print("   请输入1-5之间的数字\n")
 
 
 if __name__ == "__main__":

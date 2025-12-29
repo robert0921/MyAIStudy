@@ -89,9 +89,13 @@ def demonstrate_python_basics():
     print("="*60)
 
     print("\n1. 基本语法示例")
-    print("  • 列表推导式:", [x**2 for x in range(5)])
-    print("  • 字典推导式:", {x: x**2 for x in range(5)})
-    print("  • Lambda函数:", list(map(lambda x: x*2, [1,2,3,4])))
+    squares = [x**2 for x in range(5)]
+    square_map = {x: x**2 for x in range(5)}
+    doubled = [x*2 for x in [1, 2, 3, 4]]
+
+    print("  • 列表推导式:", squares)
+    print("  • 字典推导式:", square_map)
+    print("  • Lambda函数:", doubled)
 
     print("\n2. 函数式编程示例")
     def decorator_example(func):

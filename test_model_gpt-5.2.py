@@ -122,7 +122,7 @@ def _launch_demo(args):
     with gr.Blocks() as demo:
         gr.Markdown("""<center><font size=8>GPT5.2-Chat For DDC</center>""")
 
-        chatbot = gr.Chatbot(label='GPT5.2-Chat For DDC', height=320, elem_classes="control-height")
+        chatbot = gr.Chatbot(label='GPT5.2-Chat For DDC', height=300, elem_classes="control-height")
         query = gr.Textbox(lines=2, label='Input')
         task_history = gr.State([])
 
