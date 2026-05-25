@@ -1,8 +1,9 @@
 # ==========================================
-# MyAIStudy 依赖清单（整理与中文注释）
-# 说明：此文件列出项目可选与推荐的 Python 包，便于按需安装
+# MyAIStudy 依赖清单 v4.0
+# 说明：此文件列出项目核心、可选与实验性功能所需的 Python 包，便于按需安装
 # 项目地址: https://github.com/robert0921/MyAIStudy
-# 更新时间: 2025-11-04
+# 对应版本: MyAIStudy 文档与统一入口 v4.0
+# 更新时间: 2026-05-25
 # ==========================================
 
 # ------------------------------------------
@@ -75,14 +76,14 @@ ipython>=7.0.0         # 交互式 Python shell（可选）
 
 
 # ==========================================
-# 高级版额外依赖（可选）
+# 高级版 / 应用开发版额外依赖（可选）
 # ------------------------------------------
-# RAG / 向量数据库 / 服务化 / 知识管理 / 可视化 等高级功能所需的可选包
+# RAG / 向量数据库 / 服务化 / 知识管理 / 部署演示等高级功能所需的可选包
 # 按需安装：部分包（如 faiss-gpu）依赖特定平台与 CUDA 版本，请根据环境选择
 langchain>=0.0.200           # LangChain 框架（RAG 管道）
 faiss-cpu>=1.7.2             # FAISS（CPU版本），可选：faiss-gpu 根据 CUDA 安装
 chromadb>=0.3.25             # 向量数据库（Chromadb）
-fastapi>=0.95.0              # Web 框架（生产服务化）
+fastapi>=0.95.0              # Web 框架（生产服务化 / WebSocket 服务）
 uvicorn[standard]>=0.20.0    # ASGI 服务器（推荐带 standard 选项）
 redis>=4.5.0                 # Redis 客户端（会话/缓存）
 prometheus-client>=0.14.1    # Prometheus 指标收集
@@ -93,6 +94,17 @@ pyvis>=0.2.1                 # 图形化可视化（浏览器交互式网络图�
 bibtexparser>=1.2.0          # BibTeX 解析/导出（论文管理）
 psutil>=5.9.0                # 系统/进程信息（性能分析/资源监控）
 python-dotenv>=1.0.0         # 环境变量管理（.env 支持）
+
+
+# ------------------------------------------
+# 语音 / 浏览器 / Azure VoiceLive（可选）
+# ------------------------------------------
+# 这些依赖用于浏览器音频对话、Azure VoiceLive WebSocket 服务与语音实验脚本
+openai>=1.0.0                # OpenAI/Azure OpenAI 客户端
+gradio>=4.0.0                # 浏览器 UI、音频录制与回放
+azure-ai-voicelive[aiohttp]  # Azure VoiceLive SDK（aiohttp 传输）
+azure-identity               # Azure 身份认证
+pyaudio                      # 本地麦克风 / 扬声器音频流
 
 # ==========================================
 # 安装指南（示例命令）
@@ -106,10 +118,16 @@ python-dotenv>=1.0.0         # 环境变量管理（.env 支持）
 # 3) 推荐安装（包含常用演示功能，但不包含所有可选项）
 #    pip install numpy matplotlib torch torchvision pandas plotly dash albumentations timm
 #
-# 4) 完整安装（安装本文件中列出的所有包）
+# 4) RAG / Agent / 服务化相关安装
+#    pip install langchain faiss-cpu chromadb fastapi uvicorn redis sentence-transformers transformers
+#
+# 5) 语音 / 浏览器实验相关安装
+#    pip install openai gradio azure-ai-voicelive[aiohttp] azure-identity pyaudio
+#
+# 6) 完整安装（安装本文件中列出的所有包）
 #    pip install -r requirements.txt
 #
-# 5) GPU 支持：根据 CUDA 版本选择 PyTorch 对应安装命令，详情见 https://pytorch.org/
+# 7) GPU 支持：根据 CUDA 版本选择 PyTorch 对应安装命令，详情见 https://pytorch.org/
 #    示例（根据 CUDA 版本替换索引）：
 #    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 
@@ -117,13 +135,18 @@ python-dotenv>=1.0.0         # 环境变量管理（.env 支持）
 # ==========================================
 # 快速运行（安装后示例）
 # ==========================================
-# 运行交互式演示：
-#   python run_example.py        # 交互菜单
-#   python run_example.py quick  # 快速演示核心功能
-#   python run_example.py help   # 查看帮助
+# 运行统一入口：
+#   python run_example.py                    # 交互菜单
+#   python run_example.py --help             # 查看帮助
+#   python run_example.py application quick  # 应用开发版快速演示
+#
+# 运行独立入口：
+#   python run_application_examples.py quick
+#   python run_intermediate_examples.py help
 #
 # 运行自动化测试：
-#   python test_run_example.py
+#   pytest
+#   python test_full.py
 
 
 # ==========================================
@@ -131,5 +154,6 @@ python-dotenv>=1.0.0         # 环境变量管理（.env 支持）
 # ==========================================
 # - 如果缺少某些可选依赖，项目的大多数功能仍可运行；程序会在运行时检测并给出提示。
 # - Windows 用户推荐使用 Anaconda 或 venv 管理 Python 环境。
+# - PyAudio 在 Windows 上可能需要先安装对应 wheel，建议优先使用虚拟环境。
 # - 在生产或训练环境中，请使用独立的虚拟环境并根据硬件选择合适的包版本。
 # ==========================================

@@ -1,6 +1,6 @@
 """
-MyAIStudy 进阶版学习系统入口
-12周进阶实战计划 - 深度学习与LLM专项训练
+MyAIStudy 进阶版学习系统入口 v4.0
+对应整合版第13-24周：深度学习原理与 LLM 工程基础
 
 功能模块：
 1. 基础理论：线性代数、反向传播、优化器、CNN/Transformer
@@ -11,13 +11,26 @@ MyAIStudy 进阶版学习系统入口
     python run_intermediate_examples.py
     
 相关文档：
-    - README_Intermediate.md
-    - docs/AI学习12周实战计划表（进阶版）.md
+    - README_intermediate.md
+    - AI学习12周实战计划表（进阶版）.md
 """
 import sys
 import os
 import time
 from typing import List, Dict, Any
+
+
+def configure_output_encoding() -> None:
+    """Ensure Chinese output renders correctly on Windows terminals."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+
+configure_output_encoding()
 
 # 尝试导入numpy和pandas
 try:
@@ -1329,22 +1342,22 @@ if __name__ == "__main__":
                     print("\n跳过深度学习训练")
             elif mode == "help":
                 print("\n可用命令:")
-                print("  python run_example.py                    # 交互菜单模式")
-                print("  python run_example.py fundamentals       # 基础知识演示")
-                print("  python run_example.py llm               # LLM架构演示")
-                print("  python run_example.py snn               # 性能测试")
-                print("  python run_example.py dashboard         # 数据仪表盘")
-                print("  python run_example.py train             # 深度学习训练")
-                print("  python run_example.py prompt            # Prompt Engineering")
-                print("  python run_example.py pruning           # 模型剪枝")
-                print("  python run_example.py finetuning        # 大模型微调 (LoRA/QLoRA/PEFT)")
-                print("  python run_example.py inference         # 推理优化 (KV Cache)")
-                print("  python run_example.py quick             # 快速演示")
-                print("  python run_example.py all               # 完整演示")
-                print("  python run_example.py help              # 显示帮助")
+                print("  python run_intermediate_examples.py                    # 交互菜单模式")
+                print("  python run_intermediate_examples.py fundamentals       # 基础知识演示")
+                print("  python run_intermediate_examples.py llm               # LLM架构演示")
+                print("  python run_intermediate_examples.py snn               # 性能测试")
+                print("  python run_intermediate_examples.py dashboard         # 数据仪表盘")
+                print("  python run_intermediate_examples.py train             # 深度学习训练")
+                print("  python run_intermediate_examples.py prompt            # Prompt Engineering")
+                print("  python run_intermediate_examples.py pruning           # 模型剪枝")
+                print("  python run_intermediate_examples.py finetuning        # 大模型微调 (LoRA/QLoRA/PEFT)")
+                print("  python run_intermediate_examples.py inference         # 推理优化 (KV Cache)")
+                print("  python run_intermediate_examples.py quick             # 快速演示")
+                print("  python run_intermediate_examples.py all               # 完整演示")
+                print("  python run_intermediate_examples.py help              # 显示帮助")
             else:
                 print(f"未知模式: {mode}")
-                print("使用 'python run_example.py help' 查看可用命令")
+                print("使用 'python run_intermediate_examples.py help' 查看可用命令")
                 main()
         except KeyboardInterrupt:
             print("\n\n程序被用户中断")

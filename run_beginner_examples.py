@@ -1,6 +1,6 @@
 """
-初学者AI学习路线 - 12周实战计划
-统一入口程序
+MyAIStudy 入门版学习系统入口 v4.0
+对应整合版第1-12周：Python、数据科学与机器学习基础
 
 运行方式:
     python run_beginner_examples.py           # 交互菜单
@@ -10,6 +10,19 @@
 """
 import sys
 import time
+
+
+def configure_output_encoding() -> None:
+    """Ensure Chinese output renders correctly on Windows terminals."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+
+configure_output_encoding()
 
 # 检查依赖
 try:

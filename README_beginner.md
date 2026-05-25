@@ -1,6 +1,6 @@
-# 🎓 初学者AI学习路线 - 12周实战计划
+# 🌱 MyAIStudy 入门版 v4.0 - 12周 AI 基础实战
 
-> 从编程基础到AI实战，系统掌握Python、数据科学、机器学习和深度学习核心技能
+> 对应整合版第1-12周，从编程基础到AI实战，系统掌握Python、数据科学、机器学习和深度学习核心技能
 
 ## 📚 项目简介
 
@@ -25,7 +25,7 @@ beginner/
 └── week9_12_deep_learning.py        # 第9-12周：深度学习入门
 
 run_beginner_examples.py             # 统一入口程序
-README_BEGINNER.md                   # 本文档
+README_beginner.md                   # 本文档
 ```
 
 ## 🎯 学习路线
@@ -557,8 +557,8 @@ final_model = week12_comprehensive_project()
 
 - **项目地址**: [GitHub仓库链接]
 - **作者**: AI Learning Team
-- **版本**: v1.0.0
-- **更新日期**: 2024年
+- **版本**: v4.0
+- **更新日期**: 2026-05-25
 
 ---
 

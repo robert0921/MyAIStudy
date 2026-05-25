@@ -1,6 +1,6 @@
 """
-MyAIStudy 高级版学习系统 v2.0
-第13-24周：从RAG到AI工程师全栈技能
+MyAIStudy 高级版学习系统 v4.0
+模块内部编号 Week 13-24，对应整合版第25-36周
 
 学习路线：
 阶段四（Week 13-18）：RAG与智能体系统
@@ -28,6 +28,19 @@ import sys
 import os
 from pathlib import Path
 
+
+def configure_output_encoding() -> None:
+    """Ensure Chinese output renders correctly on Windows terminals."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+
+configure_output_encoding()
+
 # 添加项目根目录到路径
 PROJECT_ROOT = Path(__file__).parent
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -38,9 +51,9 @@ def print_banner():
     banner = """
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║                                                                       ║
-║          🚀 MyAIStudy 高级版 v2.0 - AI工程师全栈培训                  ║
+║          🚀 MyAIStudy 高级版 v4.0 - AI工程师全栈培训                  ║
 ║                                                                       ║
-║          从RAG原理到求职面试，24周完整学习路线                        ║
+║          内部模块 Week13-24，对应整合版第25-36周                     ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝
     """

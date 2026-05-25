@@ -1,6 +1,6 @@
-# 🎓 深度学习训练与架构演示系统 v2.3
+# 🎓 MyAIStudy 进阶版 v4.0 - 深度学习原理与 LLM 工程
 
-> 一个完整的深度学习基础知识实现和演示系统，从线性代数基础到LLM架构、Prompt Engineering到大模型微调与推理优化的全套实现。
+> 对应整合版第13-24周，一个从线性代数基础到 LLM 架构、Prompt Engineering、大模型微调与推理优化的完整实现与演示系统。
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
@@ -80,7 +80,7 @@
 
 ```
 MyAIStudy/
-├── run_intermediate_example.py              # 统一入口，所有功能的主程序
+├── run_intermediate_examples.py             # 统一入口，所有功能的主程序
 ├── test_run_example.py         # 自动化测试脚本
 │
 ├── intermediate/               # 核心模块目录（重命名自 ml_core）
@@ -137,13 +137,13 @@ MyAIStudy/
 
 #### 🎮 交互模式（推荐新手）
 ```bash
-python run_intermediate_example.py
+python run_intermediate_examples.py
 ```
 显示菜单，选择要运行的功能模块。
 
 #### ⚡ 快速演示（5-10分钟）
 ```bash
-python run_intermediate_example.py quick
+python run_intermediate_examples.py quick
 ```
 运行核心功能演示：LLM架构、SNN性能测试、Prompt Engineering。
 
@@ -151,61 +151,61 @@ python run_intermediate_example.py quick
 
 **基础知识演示**（约15分钟）
 ```bash
-python run_intermediate_example.py fundamentals
+python run_intermediate_examples.py fundamentals
 ```
 线性代数、反向传播、优化器、CNN/Transformer基础实现。
 
 **LLM架构演示**（约5分钟）
 ```bash
-python run_intermediate_example.py llm
+python run_intermediate_examples.py llm
 ```
 LLaMA模型结构、注意力机制、位置编码、文本生成。
 
 **性能测试**（约3分钟）
 ```bash
-python run_intermediate_example.py snn
+python run_intermediate_examples.py snn
 ```
 矩阵乘法性能、NumPy vs Numba对比、神经网络训练。
 
 **数据仪表盘**（持续运行）
 ```bash
-python run_intermediate_example.py dashboard
+python run_intermediate_examples.py dashboard
 ```
 交互式数据可视化，浏览器自动打开，Ctrl+C停止。
 
 **深度学习训练**（5分钟-2小时）
 ```bash
-python run_example.py train
+python run_intermediate_examples.py train
 ```
 4种训练模式：单GPU快速训练、Kaggle竞赛模型、FP32/FP16对比、完整流程。
 
 **Prompt Engineering**（约2分钟）
 ```bash
-python run_example.py prompt
+python run_intermediate_examples.py prompt
 ```
 Few-shot示例管理、Prompt调试优化、批量测试。
 
 **模型剪枝与压缩**（约5分钟）
 ```bash
-python run_example.py pruning
+python run_intermediate_examples.py pruning
 ```
 幅度剪枝、结构化剪枝、全局剪枝、迭代剪枝、稀疏度分析。
 
 **大模型微调**（约5-10分钟）🆕
 ```bash
-python run_example.py finetuning
+python run_intermediate_examples.py finetuning
 ```
 LoRA低秩适配、QLoRA量化微调、PEFT方法对比、参数效率分析。
 
 **推理优化**（约5分钟）🆕
 ```bash
-python run_example.py inference
+python run_intermediate_examples.py inference
 ```
 KV Cache加速演示、批量推理优化、性能基准测试、显存使用分析。
 
 **查看帮助**
 ```bash
-python run_example.py help
+python run_intermediate_examples.py help
 ```
 显示所有可用命令和使用说明。
 
@@ -504,7 +504,7 @@ results = engine.benchmark_batch_sizes(
 ## 📚 文档资源
 
 - 📖 **[使用指南](docs/USAGE_GUIDE.md)** - 详细的使用说明和常见问题
-- 📊 **[学习计划](docs/AI学习10周实战计划表（进阶版）.md)** - 深度学习与AI系统设计的系统化学习路径
+- 📊 **[学习计划](AI学习12周实战计划表（进阶版）.md)** - 深度学习与AI系统设计的系统化学习路径
 
 ## 🤝 贡献指南
 
@@ -532,6 +532,12 @@ results = engine.benchmark_batch_sizes(
 
 ## 📈 版本历史
 
+### v4.0 (2026-05-25) 🎉
+- ✅ **系统版本对齐**：标题、入口说明和命令示例统一升级到 v4.0
+- ✅ **脚本名修正**：所有运行示例统一为 `run_intermediate_examples.py`
+- ✅ **统一入口联动**：可通过 `python run_example.py intermediate` 进入进阶版入口
+- ✅ **学习资料校准**：学习计划链接与现有 12 周进阶版资料保持一致
+
 ### v2.3 (2025-11-06) 🆕
 - ✅ **大模型微调功能**：新增 `finetuning.py` 模块（600+ 行）
 - ✅ **LoRA实现**：低秩适配层，只训练0.5-1%参数
@@ -542,7 +548,7 @@ results = engine.benchmark_batch_sizes(
 - ✅ **批量推理引擎**：动态批处理，吞吐量提升3-8倍
 - ✅ **性能基准测试**：完整的延迟、吞吐量、显存使用分析
 - ✅ **交互式演示**：6个完整演示函数，可独立运行
-- ✅ **命令行集成**：`python run_example.py finetuning/inference`
+- ✅ **命令行集成**：`python run_intermediate_examples.py finetuning/inference`
 - ✅ **文档完善**：详细的实现报告和快速开始指南
 
 ### v2.2 (2025-11-05)
