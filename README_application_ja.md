@@ -6,6 +6,8 @@
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 [![Track](https://img.shields.io/badge/track-application--engineering-orange.svg)]()
 
+[中文](./README_application.md) | [日本語](./README_application_ja.md)
+
 ## 📋 プロジェクト概要
 
 このプロジェクトは、AI学习12周实战计划表（应用开发版）.md に対応する軽量コード実装です。目的は、本番用フレームワークをそのまま置き換えることではなく、**依存を抑えつつ、動かして説明できる学習サンプル**を提供することにあります。これにより、RAG、Agent、デプロイ、エンジニアリングの主要概念を短期間で一つの流れとして理解できます。

@@ -6,6 +6,8 @@
 [![NumPy](https://img.shields.io/badge/numpy-latest-orange.svg)](https://numpy.org/)
 [![Status](https://img.shields.io/badge/status-complete-success.svg)]()
 
+[中文](./README_advanced.md) | [日本語](./README_advanced_ja.md)
+
 ## 📋 学習目標
 
 高級版を完了すると、次の力を獲得できます。

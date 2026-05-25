@@ -9,6 +9,7 @@
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 
 ---
+[中文](./README.md) | [日本語](./README_ja.md)
 
 ⭐ **このプロジェクトが役に立った場合は、ぜひ Star をお願いします。** ⭐
 

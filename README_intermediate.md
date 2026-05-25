@@ -6,6 +6,8 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+[中文](./README_intermediate.md) | [日本語](./README_intermediate_ja.md)
+
 ## ✨ 特色亮点
 
 ### 📚 完整的理论到实践

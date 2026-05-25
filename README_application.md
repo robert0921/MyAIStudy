@@ -6,6 +6,8 @@
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 [![Track](https://img.shields.io/badge/track-application--engineering-orange.svg)]()
 
+[中文](./README_application.md) | [日本語](./README_application_ja.md)
+
 ## 📋 项目简介
 
 本项目是《AI学习12周实战计划表（应用开发版）》的轻量代码实现，定位不是替代真实生产框架，而是提供一套**低依赖、可运行、可讲解**的训练样例，方便把训练营中的 RAG、Agent、部署与工程化概念快速串起来。
