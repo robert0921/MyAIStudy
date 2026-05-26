@@ -285,6 +285,8 @@ pip install transformers peft trl unsloth
 - README_advanced.md
 - AI学习12周实战计划表（应用开发版）.md
 - AI学习48周实战计划表（整合版）.md
+- openspec/README.md
+- 培训课程产品化推荐案.md
 
 ---
 

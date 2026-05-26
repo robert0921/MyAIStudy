@@ -1,6 +1,6 @@
 # 🎓 MyAIStudy - AIエンジニア向けフルスタック学習システム v4.0
 
-> Python 入門からエンタープライズ AI アプリケーションの実運用までを一貫して学べる完全ロードマップ | 48 週間の統合メインライン + アプリケーション開発短期集中
+> Python 入門からエンタープライズ AI アプリケーションの実運用までを一貫して学べる完全ロードマップ | 48 週間の統合メインライン + 2026 新版課綱に合わせたアプリケーション開発短期集中
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
@@ -20,17 +20,30 @@ MyAIStudy は、プログラミング基礎からエンタープライズ AI ア
 - 段階別に進める: 入門版 → 進階版 → 高級版
 - 統合版の主線で学ぶ: AI学习48周实战计划表（整合版）.md を参照
 
+そのうちアプリケーション開発版は、《知乎知学堂「AI大模型应用开发实战训练营」26年新版课纲》を参照して再構成し、次の 2 層で整理しています。
+
+- コア実行主線: 既存の Python サンプルで Prompt / RAG / Agent / デプロイ / 工程効率の閉ループをそのまま体験する
+- 拡張トピック: 多モーダル知識処理、Agent の可制御性と自己反省、Harness Engineering、ローコード基盤、AI Testing、ChatBI を段階的に吸収する
+
 | トラック | 期間 | 位置付け | 主な内容 | 想定読者 |
 |------|------|------|----------|----------|
 | 🌱 **[入門版](#-入門版第1-12週)** | 12週 | 基礎主線 | Python、NumPy、Pandas、Scikit-Learn、PyTorch の基礎 | プログラミング経験者、AI 初学者 |
 | 🎓 **[進階版](#-進階版第13-24週)** | 12週 | 原理主線 | ゼロからの実装、LLM アーキテクチャ、最適化アルゴリズム、エンジニアリング実践 | 原理を深く理解したい開発者 |
 | 🚀 **[高級版](#-高級版第25-36週)** | 12週 | システム化主線 | RAG システム、AI Agent、研究志向のアウトプット、キャリア準備 | 体系的なエンジニアリング力を身につけたい人 |
-| 🏢 **[アプリケーション開発版](#-アプリケーション開発版平行実践トラック)** | 12週 | 企業導入短期集中 | RAG エンジニアリング、Agent アーキテクチャ、LLM 微調整、高並列デプロイ、AI Coding | AI 基礎があり、企業導入に集中したい人 |
+| 🏢 **[アプリケーション開発版](#-アプリケーション開発版平行実践トラック)** | 12週 | 企業導入短期集中 | RAG、可制御 Agent、Harness 発想、多モーダル拡張、デプロイ、AI 提效 | AI 基礎があり、企業導入とシステム統合に集中したい人 |
 | 🧭 **統合版総合プラン** | 48週 | 重複除去済み主線 | 重複内容を整理した完全な学習スケジュール | 一つの主線で継続的に成長したい学習者 |
 
 **最初に確認することを推奨:** AI学习48周实战计划表（整合版）.md  
 **アプリケーション開発短期集中:** README_application_ja.md + AI学习12周实战计划表（应用开发版）.md  
 **統一エントリ:** run_example.py はトラック直行と引数透過をサポートします。例: `python run_example.py application quick`
+
+## 🆕 2026 新版課綱への対応
+
+- **RAG を「検索できる」から「解析・評価・最適化できる」へ拡張**: Query Rewrite、Hybrid Search、Rerank、多モーダル文書処理、知識庫運用の観点を補強。
+- **Agent を「ツールを叩ける」から「可制御・反省・編成できる」へ拡張**: Function Calling 制約、JSON 出力、Self-Reflection、Human-in-the-Loop、長期記憶、多 Agent 閉ループを追加。
+- **デプロイを「動かせる」から「選定・調優・監視できる」へ拡張**: GPU / 推論フレームワーク選定、PagedAttention、Continuous Batching、RadixAttention を導入。
+- **工程化を「Demo を作る」から「実システムに接続する」へ拡張**: Coze / Dify、AI Testing、Text-to-SQL、ChatBI、社内システム統合と受け入れ条件整理を補強。
+- **リポジトリ方針は引き続き抑制的**: コードは低依存で動く主線に集中し、重量級トピックはルート設計と置換実践で吸収する。
 
 ---
 
@@ -253,39 +266,41 @@ python run_advanced_examples.py all         # 完全デモ（40分）
 ## 🏢 アプリケーション開発版（平行実践トラック）
 
 ### 学習目標
-エンタープライズ向け大規模モデル活用を想定し、12 週間で動作する・説明できる・拡張できる業務プロトタイプを完成させます。
+エンタープライズ向け大規模モデル活用を想定し、12 週間で動作する・説明できる・評価できる・拡張できる業務プロトタイプを完成させます。さらに 2026 新版課綱で強化された可制御 Agent、多モーダル、工程提效トピックも吸収します。
 
 ### 主な特徴
-- 🗂️ **RAG エンジニアリング全工程** - Prompt、Embedding、Chunking、検索、評価までを一気通貫で理解
-- 🤖 **Agent アーキテクチャ実践** - Function Calling、MCP、Memory、ReAct の最小実行例
-- 🔧 **フレームワーク選定力** - LangChain、LlamaIndex、AutoGen、Coze、Dify の位置付け比較
-- ⚡ **デプロイと微調整の判断軸** - LoRA / QLoRA、vLLM、SGLang、Ollama の選択基準
-- 💼 **エンジニアリング閉ループ** - Spec Coding、受け入れ条件、Text-to-SQL、総合プロジェクト演示
+- 🗂️ **RAG エンジニアリング全工程** - Prompt、Embedding、Chunking、Query Rewrite、Hybrid Search、評価、知識庫運用まで整理
+- 🤖 **可制御 Agent 実践** - Function Calling、MCP、A2A、Memory、ReAct、Self-Reflection、Human-in-the-Loop を接続
+- 🧠 **Harness と編成の理解** - 長期記憶、主 Agent 調度、タスク閉ループと結果回収の設計観点を獲得
+- 🖼️ **多モーダルとローコード拡張** - PDF / Word / Web / MinerU / Coze / Dify の接続方向と業務マッピングを理解
+- ⚡ **デプロイと工程提效** - LoRA / QLoRA / 蒸留、vLLM / SGLang / Ollama、AI Testing、Text-to-SQL、ChatBI を横断整理
 
 ### 学習ルート
 
-**第1-4週: 大規模モデル基礎と RAG エンジニアリング**
-- 💬 Week 1: Prompt Engineering & Context Engineering
-- 🔢 Week 2: Embedding 原理とベクトル DB 選定
-- 📚 Week 3: RAG の中核フローとローカル知識ベース構築
-- 🎯 Week 4: ハイブリッド検索 + Reranking + RAG 効果評価
+**第1-4週: 大規模モデル基礎、RAG、多モーダル知識処理**
+- 💬 Week 1: Prompt / Context Engineering + 出力制約
+- 🔢 Week 2: Embedding、ベクトル DB、モデル選定
+- 📚 Week 3: Native RAG、文書取り込み、知識庫構築
+- 🎯 Week 4: Query Rewrite、Hybrid Search、Rerank、評価
 
-**第5-8週: Agent アーキテクチャとフレームワーク実践**
-- 🔧 Week 5: Function Calling と MCP プロトコル
-- 🧠 Week 6: Agent の計画、記憶、ReAct / LangGraph 実践
-- 🛠️ Week 7: LangChain / LlamaIndex / AutoGen を実務観点で理解
-- 🖱️ Week 8: Coze / Dify と企業システム統合
+**第5-8週: 可制御 Agent、Harness、システム統合**
+- 🔧 Week 5: Function Calling、MCP、A2A プロトコル
+- 🧠 Week 6: Agent の計画、反省、記憶、Human-in-the-Loop
+- 🕸️ Week 7: Harness Engineering、長期記憶、多 Agent 調度
+- 🖱️ Week 8: LangChain / LlamaIndex / Coze / Dify とローコード統合
 
-**第9-12週: 微調整、デプロイ、エンジニアリング効率**
-- ⚙️ Week 9: LoRA / QLoRA 微調整と VRAM 最適化
-- 🚀 Week 10: vLLM / SGLang / Ollama による高並列推論デプロイ
-- 💻 Week 11: AI Coding 実践と ChatBI プロジェクト
-- 🏆 Week 12: 総合プロジェクト · 企業 RAG + Agent + デプロイ
+**第9-12週: 微調整、デプロイ、工程提效**
+- ⚙️ Week 9: LoRA / QLoRA、データ工程、蒸留
+- 🚀 Week 10: vLLM / SGLang / Ollama、高並列原理と監視
+- 💻 Week 11: AI Coding、AI Testing、Text-to-SQL / ChatBI
+- 🏆 Week 12: 総合プロジェクト · 企業 RAG + Agent + デプロイ、さらに多モーダル拡張余地を設計
 
 ### 学習成果
-- 📦 企業向け知識 QA Agent の原型（軽量コード版）
-- 📊 微調整戦略比較表 + 高並列デプロイ比較表
-- 📄 実際のフレームワークへ置き換え可能な工程骨格
+- 📦 企業向け知識 QA Agent の原型（軽量コード主線）
+- 📊 RAG / Agent / 微調整 / デプロイの評価・選定資料一式
+- 📄 実フレームワーク、ローコード基盤、社内システム統合へ差し替え可能な工程骨格
+
+**補足:** 現在のリポジトリはアプリケーション開発版の主線サンプルをコードでカバーしています。OpenManus / Hermes / 多モーダル動画 / Coze-Dify API / AI Testing などは、重量級の偽実装を増やさず、拡張トピックとして吸収する方針です。
 
 ### クイックスタート
 
@@ -586,6 +601,7 @@ pip install -r requirements.txt
 ### v4.0 (2026-05-25) 🎉
 - ✅ **統一入口の刷新**: `run_example.py` を 4 トラック構成に再編し、引数透過をサポート
 - ✅ **アプリケーション開発版の補完**: 12 週 README、サンプルコード、単独入口、統合ルート説明を追加
+- ✅ **新版課綱への対応**: 2026 年版の応用開発課綱に合わせて、可制御 Agent、多モーダル、Harness、ローコード、AI 提效の導線を追加
 - ✅ **48 週主線の成立**: 重複除去済みの統合学習計画を追加し、推奨学習パスを明確化
 - ✅ **文書の口径統一**: メイン README と各段階 README を v4.0 と実際のスクリプト名へ統一
 - ✅ **高級版説明の更新**: Week 15-17 を計画占位から実装済みモジュール説明へ更新
