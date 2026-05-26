@@ -1,6 +1,6 @@
 # 🎓 MyAIStudy - AI工程师全栈培训系统 v4.0
 
-> 从 Python 入门到企业级 AI 应用交付的完整学习路径 | 48 周 整合主线 + 应用开发冲刺
+> 从 Python 入门到企业级 AI 应用交付的完整学习路径 | 48 周整合主线 + 对齐 2026 新版课纲的应用开发冲刺
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
@@ -19,18 +19,28 @@ MyAIStudy 是一套完整的 AI 工程师培训体系，涵盖从编程基础到
 
 - 按阶段逐步推进：入门版 → 进阶版 → 高级版
 - 按整合版主线学习：参考 AI学习48周实战计划表（整合版）.md
+- 核心可运行主线：用仓库现有 Python 样例直接覆盖 Prompt / RAG / Agent / 部署 / 工程效能闭环
+- 进阶专题扩展：按新版课纲吸收多模态知识处理、Agent 可控性与自反思、Harness 工程、低代码平台、AI 测试与 ChatBI
 
 | 路线 | 周期 | 定位 | 核心内容 | 适合人群 |
 |------|------|------|----------|----------|
 | 🌱 **[入门版](#-入门版第1-12周)** | 12周 | 基础主线 | Python、NumPy、Pandas、Scikit-Learn、PyTorch基础 | 编程基础，AI零基础 |
 | 🎓 **[进阶版](#-进阶版第13-24周)** | 12周 | 原理主线 | 从零实现、LLM架构、优化算法、工程实践 | 想深入理解原理的开发者 |
 | 🚀 **[高级版](#-高级版第25-36周)** | 12周 | 系统化主线 | RAG系统、AI Agent、科研化输出、职业化准备 | 想形成系统性工程能力 |
-| 🏢 **[应用开发版](#-应用开发版平行实战赛道)** | 12周 | 企业落地冲刺 | RAG工程、Agent架构、LLM微调、高并发部署、AI Coding | 有AI基础、专注企业落地 |
+| 🏢 **[应用开发版](#-应用开发版平行实战赛道)** | 12周 | 企业落地冲刺 | RAG工程、可控Agent、Harness思路、多模态扩展、部署与AI提效 | 有AI基础、专注企业落地与系统集成 |
 | 🧭 **整合版总计划** | 48周 | 去重主线 | 合并重复内容后的完整学习时间表 | 想按一条主线持续推进的学习者 |
 
 **推荐优先查看：** AI学习48周实战计划表（整合版）.md  
 **应用开发快线：** README_application.md + AI学习12周实战计划表（应用开发版）.md  
 **统一入口：** run_example.py 支持路线直达与参数透传，例如 `python run_example.py application quick`
+
+## 🆕 2026 新版升级
+
+- **RAG 从“能检索”升级为“能解析、能评估、能优化”**：补齐 Query 改写、混合检索、Rerank、多模态文档处理与知识库运维思路。
+- **Agent 从“会调工具”升级为“可控、可反思、可编排”**：补齐 Function Calling 约束、JSON 输出、自主反思、Human-in-the-Loop、长期记忆与多 Agent 闭环。
+- **部署从“能跑通”升级为“会选型、会调优、会监控”**：引入 GPU / 框架选型、PagedAttention、Continuous Batching、RadixAttention 等关键概念。
+- **工程化从“做 Demo”升级为“能接系统”**：补齐 Coze / Dify、AI Testing、Text-to-SQL、ChatBI、企业内系统集成与验收清单。
+- **仓库组织原则保持克制**：代码优先覆盖低依赖、可运行主线；重框架专题通过路线图、案例拆解和替换实践来吸收，不虚增依赖与伪实现。
 
 ---
 
@@ -253,39 +263,41 @@ python run_advanced_examples.py all         # 完整演示（40分钟）
 ## 🏢 应用开发版（平行实战赛道）
 
 ### 学习目标
-面向企业级大模型应用落地，用 12 周完成一条可运行、可演示、可继续扩展的业务原型链路
+面向企业级大模型应用落地，用 12 周完成一条可运行、可演示、可评估、可继续扩展的业务原型链路，并吸收 2026 新版课纲中的可控 Agent、多模态与工程提效专题
 
 ### 核心特色
-- 🗂️ **RAG 工程全链路** - Prompt、Embedding、Chunking、检索、评估一条线跑通
-- 🤖 **Agent 架构实战** - Function Calling、MCP、Memory、ReAct 的最小可运行样例
-- 🔧 **框架选型意识** - LangChain、LlamaIndex、AutoGen、Coze、Dify 的定位对比
-- ⚡ **部署与微调认知** - LoRA / QLoRA、vLLM、SGLang、Ollama 的取舍思路
-- 💼 **工程化闭环** - Spec Coding、验收清单、Text-to-SQL 与综合项目演示
+- 🗂️ **RAG 工程全链路** - Prompt、Embedding、Chunking、Query Rewrite、Hybrid Search、评估与知识库运维思路
+- 🤖 **可控 Agent 实战** - Function Calling、MCP、A2A、Memory、ReAct、Self-Reflection、Human-in-the-Loop
+- 🧠 **Harness 与系统编排** - 长期记忆、主 Agent 调度、任务闭环与结果回收的设计思路
+- 🖼️ **多模态与低代码扩展** - PDF / Word / Web / MinerU / Coze / Dify 的接入方向与业务映射
+- ⚡ **部署与工程提效** - LoRA / QLoRA / 蒸馏、vLLM / SGLang / Ollama、AI Testing、Text-to-SQL、ChatBI
 
 ### 学习路线
 
-**第1-4周：大模型基础与 RAG 工程**
-- 💬 Week 1: Prompt Engineering & Context Engineering
-- 🔢 Week 2: Embedding 原理与向量数据库选型
-- 📚 Week 3: RAG 核心流程与本地知识库搭建
-- 🎯 Week 4: 混合检索 + Reranking + RAG 效果评估
+**第1-4周：大模型基础、RAG 与多模态知识处理**
+- 💬 Week 1: Prompt / Context Engineering + 输出约束
+- 🔢 Week 2: Embedding、向量数据库与模型选型
+- 📚 Week 3: Native RAG、文档摄取与知识库构建
+- 🎯 Week 4: Query 改写、混合检索、Rerank 与评估
 
-**第5-8周：Agent 架构与框架实战**
-- 🔧 Week 5: Function Calling 与 MCP 协议
-- 🧠 Week 6: Agent 规划、记忆与 ReAct / LangGraph 实战
-- 🛠️ Week 7: LangChain / LlamaIndex / AutoGen 框架精讲
-- 🖱️ Week 8: Coze / Dify 低代码平台与企业系统集成
+**第5-8周：可控 Agent、Harness 与系统集成**
+- 🔧 Week 5: Function Calling、MCP 与 A2A 协议
+- 🧠 Week 6: Agent 规划、反思、记忆与 Human-in-the-Loop
+- 🕸️ Week 7: Harness Engineering、长期记忆与多 Agent 调度
+- 🖱️ Week 8: LangChain / LlamaIndex / Coze / Dify 框架与低代码集成
 
-**第9-12周：微调、部署与工程效能**
-- ⚙️ Week 9: LoRA / QLoRA 微调与显存优化
-- 🚀 Week 10: vLLM / SGLang / Ollama 高并发推理部署
-- 💻 Week 11: AI Coding 工程实践与 ChatBI 项目
-- 🏆 Week 12: 综合项目 · 企业 RAG + Agent + 部署全栈
+**第9-12周：微调、部署与工程提效**
+- ⚙️ Week 9: LoRA / QLoRA、数据工程与蒸馏
+- 🚀 Week 10: vLLM / SGLang / Ollama、高并发原理与监控
+- 💻 Week 11: AI Coding、AI Testing、Text-to-SQL / ChatBI
+- 🏆 Week 12: 综合项目 · 企业 RAG + Agent + 部署，并预留多模态扩展
 
 ### 学习成果
-- 📦 企业级知识问答 Agent 原型（轻量代码版）
-- 📊 微调策略对比表 + 高并发部署框架对比表
-- 📄 一套可继续替换为真实框架的工程骨架
+- 📦 企业级知识问答 Agent 原型（轻量代码主线）
+- 📊 RAG / Agent / 微调 / 部署评估与选型资料包
+- 📄 一套可继续替换为真实框架、低代码平台和业务系统集成的工程骨架
+
+**说明：** 当前仓库代码完整覆盖应用开发版主线样例；OpenManus / Hermes / 多模态视频 / Coze-Dify API / AI 测试等内容以专题扩展方式纳入课程，不在仓库中逐一做重依赖伪实现。
 
 ### 快速开始
 
@@ -577,6 +589,7 @@ pip install -r requirements.txt
 ### v4.0 (2026-05-25) 🎉
 - ✅ **统一入口升级**：`run_example.py` 采用四路线配置驱动，并支持参数透传
 - ✅ **应用开发版补齐**：新增 12 周 README、示例代码、独立入口和整合主线说明
+- ✅ **新版课纲对齐**：按 2026 新版应用开发课纲重构为“主线样例 + 专题扩展”，补齐可控 Agent、多模态、Harness、低代码和 AI 提效路线
 - ✅ **48 周主线成型**：新增去重后的整合学习计划，形成推荐学习路径
 - ✅ **文档口径统一**：主 README 与各阶段 README 全面对齐 v4.0 和真实脚本名
 - ✅ **高级版说明修订**：Week 15-17 从计划占位更新为已实现模块说明
